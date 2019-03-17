@@ -90,17 +90,17 @@ public class SpringJpaTest {
     public void testOptimizer() {
         final ListEventHandler listEventListener = new ListEventHandler();
 
-        Config config = new JpaConfig(entityManager.getEntityManagerFactory());
-        config.setEventListener(new ChainEventHandler(
+        new HypersistenceOptimizer(
+            new JpaConfig(
+                entityManager.getEntityManagerFactory()
+            )
+            .setEventListener(new ChainEventHandler(
                 Arrays.asList(
-                        listEventListener,
-                        LogEventHandler.INSTANCE
+                    listEventListener,
+                    LogEventHandler.INSTANCE
                 )
-        ));
-
-        HypersistenceOptimizer hypersistenceOptimizer = new HypersistenceOptimizer(config);
-
-        hypersistenceOptimizer.init();
+            ))
+        ).init();
 
         List<Class<?extends Event>> eventClasses = listEventListener.getEvents()
                 .stream()

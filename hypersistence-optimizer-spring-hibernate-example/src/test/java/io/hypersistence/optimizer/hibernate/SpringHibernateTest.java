@@ -1,7 +1,6 @@
 package io.hypersistence.optimizer.hibernate;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
-import io.hypersistence.optimizer.core.config.Config;
 import io.hypersistence.optimizer.core.config.HibernateConfig;
 import io.hypersistence.optimizer.core.event.ChainEventHandler;
 import io.hypersistence.optimizer.core.event.Event;
@@ -88,17 +87,17 @@ public class SpringHibernateTest {
     public void testOptimizer() {
         final ListEventHandler listEventListener = new ListEventHandler();
 
-        Config config = new HibernateConfig(sessionFactory);
-        config.setEventListener(new ChainEventHandler(
+        new HypersistenceOptimizer(
+            new HibernateConfig(
+                sessionFactory
+            )
+            .setEventListener(new ChainEventHandler(
                 Arrays.asList(
-                        listEventListener,
-                        LogEventHandler.INSTANCE
+                    listEventListener,
+                    LogEventHandler.INSTANCE
                 )
-        ));
-
-        HypersistenceOptimizer hypersistenceOptimizer = new HypersistenceOptimizer(config);
-
-        hypersistenceOptimizer.init();
+            ))
+        ).init();
 
         List<Class<?extends Event>> eventClasses = listEventListener.getEvents()
                 .stream()
