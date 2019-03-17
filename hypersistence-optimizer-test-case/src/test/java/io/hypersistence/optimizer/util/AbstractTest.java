@@ -22,13 +22,13 @@
 package io.hypersistence.optimizer.util;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
-import io.hypersistence.optimizer.core.config.HibernateConfig;
-import io.hypersistence.optimizer.core.event.ListEventHandler;
 import io.hypersistence.optimizer.core.config.Config;
-import io.hypersistence.optimizer.core.event.Event;
-import io.hypersistence.optimizer.core.exception.DefaultExceptionHandler;
+import io.hypersistence.optimizer.core.config.HibernateConfig;
 import io.hypersistence.optimizer.core.event.ChainEventHandler;
+import io.hypersistence.optimizer.core.event.Event;
+import io.hypersistence.optimizer.core.event.ListEventHandler;
 import io.hypersistence.optimizer.core.event.LogEventHandler;
+import io.hypersistence.optimizer.core.exception.DefaultExceptionHandler;
 import io.hypersistence.optimizer.core.exception.ExceptionHandler;
 import io.hypersistence.optimizer.util.providers.DataSourceProvider;
 import io.hypersistence.optimizer.util.providers.Database;
@@ -49,10 +49,8 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.boot.spi.MetadataImplementor;
 import org.hibernate.cfg.AvailableSettings;
-import org.hibernate.integrator.spi.Integrator;
 import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor;
-import org.hibernate.jpa.boot.spi.IntegratorProvider;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -77,6 +75,7 @@ public abstract class AbstractTest {
     private SessionFactory sf;
 
     private List<Exception> exceptions = new ArrayList<Exception>();
+
     private ListEventHandler listEventListener = new ListEventHandler();
 
     @Before

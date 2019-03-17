@@ -40,6 +40,8 @@
 
     <modules>
 		<module>hypersistence-optimizer-test-case</module>
+		<module>hypersistence-optimizer-spring-hibernate-example</module>
+		<module>hypersistence-optimizer-spring-jpa-example</module>
     </modules>
 
     <dependencies>
@@ -54,6 +56,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
@@ -61,6 +64,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
@@ -79,28 +83,90 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- AspectJ -->
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+
+        <!-- Spring -->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikari.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
+            <version>${hsqldb.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -124,50 +190,15 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- Required dependencies -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.hsqldb</groupId>
-                <artifactId>hsqldb</artifactId>
-                <version>${hsqldb.version}</version>
-            </dependency>
-
-            <!-- Test dependencies -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <defaultGoal>test</defaultGoal>
@@ -184,6 +215,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgument>-proc:none</compilerArgument>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -198,10 +234,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <hypersistence-optimizer.version>0.4.18</hypersistence-optimizer.version>
+        <hypersistence-optimizer.version>0.4.19</hypersistence-optimizer.version>
 
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
 
         <slf4j.version>1.7.26</slf4j.version>
         <logback.version>1.2.3</logback.version>
@@ -211,8 +248,15 @@
         <hsqldb.version>2.2.8</hsqldb.version>
         <mysql.version>5.1.47</mysql.version>
 
-        <hibernate.version>5.4.1.Final</hibernate.version>
         <datasource-proxy.version>1.3.3</datasource-proxy.version>
+
+        <hibernate.version>5.4.1.Final</hibernate.version>
+
+        <aspectj.version>1.8.7</aspectj.version>
+        <spring.version>5.1.0.RELEASE</spring.version>
+
+        <jackson.version>2.9.8</jackson.version>
+        <hikari.version>1.3.3</hikari.version>
     </properties>
 
 </project>
