@@ -49,7 +49,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Vlad Mihalcea
  */
-public class ListHandlerTest extends AbstractTest {
+public class ListEventHandlerTest extends AbstractTest {
 
     @Override
     public Class<?>[] entities() {
