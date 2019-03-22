@@ -40,6 +40,7 @@
 
     <modules>
 		<module>hypersistence-optimizer-test-case</module>
+		<module>hypersistence-optimizer-config-example</module>
 		<module>hypersistence-optimizer-spring-hibernate-example</module>
 		<module>hypersistence-optimizer-spring-jpa-example</module>
     </modules>

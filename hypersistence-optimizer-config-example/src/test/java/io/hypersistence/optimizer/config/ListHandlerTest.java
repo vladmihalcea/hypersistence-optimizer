@@ -19,16 +19,28 @@
  *
  * https://vladmihalcea.com/hypersistence-optimizer/license
  */
-package io.hypersistence.optimizer.hibernate.mapping.association.fetching.eager;
+package io.hypersistence.optimizer.config;
 
+import io.hypersistence.optimizer.HypersistenceOptimizer;
+import io.hypersistence.optimizer.core.config.Config;
+import io.hypersistence.optimizer.core.config.HibernateConfig;
+import io.hypersistence.optimizer.core.config.JpaConfig;
+import io.hypersistence.optimizer.core.event.ChainEventHandler;
 import io.hypersistence.optimizer.core.event.Event;
+import io.hypersistence.optimizer.core.event.ListEventHandler;
+import io.hypersistence.optimizer.core.event.LogEventHandler;
+import io.hypersistence.optimizer.core.exception.DefaultExceptionHandler;
+import io.hypersistence.optimizer.core.exception.ExceptionHandler;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
 import io.hypersistence.optimizer.util.AbstractHypersistenceOptimizerTest;
+import io.hypersistence.optimizer.util.AbstractTest;
+import org.junit.Test;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -37,7 +49,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Vlad Mihalcea
  */
-public class EagerFetchingManyToOneTest extends AbstractHypersistenceOptimizerTest {
+public class ListHandlerTest extends AbstractTest {
 
     @Override
     public Class<?>[] entities() {
@@ -47,9 +59,17 @@ public class EagerFetchingManyToOneTest extends AbstractHypersistenceOptimizerTe
         };
     }
 
-    @Override
-    protected void verify() {
-        List<Event> events = listEventListener().getEvents();
+    @Test
+    public void test() {
+
+        ListEventHandler listEventHandler = new ListEventHandler();
+
+        new HypersistenceOptimizer(
+                new JpaConfig(entityManagerFactory())
+                .setEventHandler(listEventHandler)
+        ).init();
+
+        List<Event> events = listEventHandler.getEvents();
         assertEquals(1, events.size());
         assertTrue(events.get(0) instanceof EagerFetchingEvent);
     }

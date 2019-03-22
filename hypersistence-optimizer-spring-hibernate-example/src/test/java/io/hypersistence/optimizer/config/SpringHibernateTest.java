@@ -1,4 +1,4 @@
-package io.hypersistence.optimizer.hibernate;
+package io.hypersistence.optimizer.config;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.HibernateConfig;

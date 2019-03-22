@@ -76,7 +76,7 @@ public abstract class AbstractTest {
 
     private List<Exception> exceptions = new ArrayList<Exception>();
 
-    private ListEventHandler listEventListener = new ListEventHandler();
+    private ListEventHandler listEventHandler = new ListEventHandler();
 
     @Before
     public void init() {
@@ -246,7 +246,7 @@ public abstract class AbstractTest {
         Config config = new HibernateConfig(sessionFactory());
         config.setEventHandler(new ChainEventHandler(
                 Arrays.asList(
-                        listEventListener,
+                        listEventHandler,
                         LogEventHandler.INSTANCE
                 )
         ));
@@ -261,8 +261,8 @@ public abstract class AbstractTest {
         return new HypersistenceOptimizer(config);
     }
 
-    public ListEventHandler listEventListener() {
-        return listEventListener;
+    public ListEventHandler listEventHandler() {
+        return listEventHandler;
     }
 
     public List<Exception> exceptions() {
@@ -416,7 +416,7 @@ public abstract class AbstractTest {
     protected void assertNoEventTriggered() {
         int count = 0;
 
-        for (Event event : listEventListener().getEvents()) {
+        for (Event event : listEventHandler().getEvents()) {
             count++;
         }
 
@@ -426,7 +426,7 @@ public abstract class AbstractTest {
     protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {
         int count = 0;
 
-        for (Event event : listEventListener().getEvents()) {
+        for (Event event : listEventHandler().getEvents()) {
             if (event.getClass().equals(eventClass)) {
                 count++;
             }

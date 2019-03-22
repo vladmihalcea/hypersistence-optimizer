@@ -1,4 +1,4 @@
-package io.hypersistence.optimizer.hibernate;
+package io.hypersistence.optimizer.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
