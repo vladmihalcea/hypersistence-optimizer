@@ -94,7 +94,7 @@ public class SpringJpaTest {
             new JpaConfig(
                 entityManager.getEntityManagerFactory()
             )
-            .setEventListener(new ChainEventHandler(
+            .setEventHandler(new ChainEventHandler(
                 Arrays.asList(
                     listEventListener,
                     LogEventHandler.INSTANCE

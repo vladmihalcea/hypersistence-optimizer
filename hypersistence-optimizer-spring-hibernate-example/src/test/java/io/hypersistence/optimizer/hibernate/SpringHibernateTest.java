@@ -91,7 +91,7 @@ public class SpringHibernateTest {
             new HibernateConfig(
                 sessionFactory
             )
-            .setEventListener(new ChainEventHandler(
+            .setEventHandler(new ChainEventHandler(
                 Arrays.asList(
                     listEventListener,
                     LogEventHandler.INSTANCE

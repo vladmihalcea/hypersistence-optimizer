@@ -66,7 +66,7 @@ new HypersistenceOptimizer(
     new JpaConfig(
         entityManager.getEntityManagerFactory()
     )
-    .setEventListener(new ChainEventHandler(
+    .setEventHandler(new ChainEventHandler(
         Arrays.asList(
             listEventListener,
             LogEventHandler.INSTANCE
@@ -86,7 +86,7 @@ new HypersistenceOptimizer(
     new HibernateConfig(
         sessionFactory
     )
-    .setEventListener(new ChainEventHandler(
+    .setEventHandler(new ChainEventHandler(
         Arrays.asList(
             listEventListener,
             LogEventHandler.INSTANCE

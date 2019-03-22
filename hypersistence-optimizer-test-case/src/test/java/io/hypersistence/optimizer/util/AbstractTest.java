@@ -244,7 +244,7 @@ public abstract class AbstractTest {
 
     protected HypersistenceOptimizer hypersistenceOptimizer() {
         Config config = new HibernateConfig(sessionFactory());
-        config.setEventListener(new ChainEventHandler(
+        config.setEventHandler(new ChainEventHandler(
                 Arrays.asList(
                         listEventListener,
                         LogEventHandler.INSTANCE
