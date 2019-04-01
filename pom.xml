@@ -43,6 +43,7 @@
 		<module>hypersistence-optimizer-config-example</module>
 		<module>hypersistence-optimizer-spring-hibernate-example</module>
 		<module>hypersistence-optimizer-spring-jpa-example</module>
+		<module>hypersistence-optimizer-spring-boot-example</module>
     </modules>
 
     <dependencies>

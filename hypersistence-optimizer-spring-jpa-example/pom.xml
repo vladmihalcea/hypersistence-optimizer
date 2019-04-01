@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <name>Hypersistence Optimizer - Spring and JPA example</name>
-    <description>An example demonstrating how you can detected performance issues in your Spring and Hibernate application.</description>
+    <description>An example demonstrating how you can detected performance issues in your Spring and JPA application.</description>
 
     <dependencies>
         <!-- AspectJ -->
