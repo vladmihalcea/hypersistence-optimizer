@@ -188,7 +188,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <hypersistence-optimizer.version>1.0.4</hypersistence-optimizer.version>
+        <hypersistence-optimizer.version>1.0.5</hypersistence-optimizer.version>
 
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
