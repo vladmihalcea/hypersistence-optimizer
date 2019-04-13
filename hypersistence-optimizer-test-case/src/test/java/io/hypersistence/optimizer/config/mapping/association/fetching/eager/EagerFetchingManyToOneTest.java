@@ -1,6 +1,5 @@
 package io.hypersistence.optimizer.config.mapping.association.fetching.eager;
 
-import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
 import io.hypersistence.optimizer.util.AbstractHypersistenceOptimizerTest;
 
@@ -8,10 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Vlad Mihalcea
@@ -28,9 +23,7 @@ public class EagerFetchingManyToOneTest extends AbstractHypersistenceOptimizerTe
 
     @Override
     protected void verify() {
-        List<Event> events = listEventHandler().getEvents();
-        assertEquals(1, events.size());
-        assertTrue(events.get(0) instanceof EagerFetchingEvent);
+        assertEventTriggered(1, EagerFetchingEvent.class);
     }
 
     @Entity(name = "Post")

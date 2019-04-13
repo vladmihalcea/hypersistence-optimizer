@@ -5,6 +5,8 @@ import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.core.event.EventFilter;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
+import io.hypersistence.optimizer.hibernate.event.configuration.connection.SkipAutoCommitCheckEvent;
+import io.hypersistence.optimizer.hibernate.event.configuration.dialect.DialectVersionEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.identifier.PostInsertGeneratorEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
 import io.hypersistence.optimizer.util.providers.Database;

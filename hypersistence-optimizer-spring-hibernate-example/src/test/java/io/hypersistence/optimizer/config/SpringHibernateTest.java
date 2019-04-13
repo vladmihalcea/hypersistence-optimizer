@@ -9,6 +9,7 @@ import io.hypersistence.optimizer.core.event.LogEventHandler;
 import io.hypersistence.optimizer.forum.domain.Post;
 import io.hypersistence.optimizer.forum.domain.Tag;
 import io.hypersistence.optimizer.forum.service.ForumService;
+import io.hypersistence.optimizer.hibernate.event.configuration.connection.SkipAutoCommitCheckEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.ManyToManyListEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneParentSideEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWithoutMapsIdEvent;
@@ -105,10 +106,11 @@ public class SpringHibernateTest {
                 .distinct()
                 .collect(Collectors.toList());
 
-        assertEquals(4, eventClasses.size());
+        assertEquals(5, eventClasses.size());
         eventClasses.contains(EagerFetchingEvent.class);
         eventClasses.contains(ManyToManyListEvent.class);
         eventClasses.contains(OneToOneParentSideEvent.class);
         eventClasses.contains(OneToOneWithoutMapsIdEvent.class);
+        eventClasses.contains(SkipAutoCommitCheckEvent.class);
     }
 }

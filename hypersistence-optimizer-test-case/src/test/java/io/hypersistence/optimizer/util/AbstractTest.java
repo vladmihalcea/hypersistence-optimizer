@@ -189,6 +189,7 @@ public abstract class AbstractTest {
             properties.put("hibernate.connection.datasource", dataSource);
         }
         properties.put("hibernate.generate_statistics", Boolean.TRUE.toString());
+        properties.put("hibernate.connection.provider_disables_autocommit", Boolean.TRUE.toString());
         additionalProperties(properties);
         return properties;
     }
@@ -395,7 +396,7 @@ public abstract class AbstractTest {
     protected void assertNoEventTriggered() {
         int count = 0;
 
-        for (Event event : listEventHandler().getEvents()) {
+        for (Event event : listEventHandler.getEvents()) {
             count++;
         }
 
@@ -405,12 +406,32 @@ public abstract class AbstractTest {
     protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {
         int count = 0;
 
-        for (Event event : listEventHandler().getEvents()) {
+        for (Event event : listEventHandler.getEvents()) {
             if (event.getClass().equals(eventClass)) {
                 count++;
             }
         }
 
         assertSame(expectedCount, count);
+    }
+
+    protected <T extends Event> T getTriggeredEvent(Class<T> eventClass) {
+        for (Event event : listEventHandler.getEvents()) {
+            if (event.getClass().equals(eventClass)) {
+                return (T) event;
+            }
+        }
+        return null;
+    }
+
+    protected <T extends Event> List<T> getTriggeredEvents(Class<T> eventClass) {
+        List<T> matchingEvents = new ArrayList<T>();
+
+        for (Event event : listEventHandler.getEvents()) {
+            if (event.getClass().equals(eventClass)) {
+                matchingEvents.add((T) event);
+            }
+        }
+        return matchingEvents;
     }
 }

@@ -49,8 +49,7 @@ public class ChainEventHandlerTest extends AbstractTest {
         ).init();
 
         List<Event> events = listEventHandler.getEvents();
-        assertEquals(1, events.size());
-        assertTrue(events.get(0) instanceof EagerFetchingEvent);
+        assertTrue(events.stream().anyMatch(event -> event instanceof EagerFetchingEvent));
     }
 
     @Entity(name = "Post")
