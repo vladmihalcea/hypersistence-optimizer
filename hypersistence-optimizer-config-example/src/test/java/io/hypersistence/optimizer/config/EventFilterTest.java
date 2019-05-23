@@ -7,6 +7,7 @@ import io.hypersistence.optimizer.core.event.EventFilter;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
 import io.hypersistence.optimizer.hibernate.event.configuration.connection.SkipAutoCommitCheckEvent;
 import io.hypersistence.optimizer.hibernate.event.configuration.dialect.DialectVersionEvent;
+import io.hypersistence.optimizer.hibernate.event.mapping.EntityMappingEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.identifier.PostInsertGeneratorEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
 import io.hypersistence.optimizer.util.providers.Database;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author Vlad Mihalcea
@@ -35,27 +37,33 @@ public class EventFilterTest extends AbstractTest {
         };
     }
 
-    @Test
-    public void test() {
+    private ListEventHandler listEventHandler = new ListEventHandler();
 
-        ListEventHandler listEventHandler = new ListEventHandler();
-
+    @Override
+    protected void afterInit() {
         new HypersistenceOptimizer(
-                new JpaConfig(entityManagerFactory())
+            new JpaConfig(entityManagerFactory())
                 .setEventHandler(listEventHandler)
-                .setEventFilter(new EventFilter() {
-                    @Override
-                    public boolean accept(Event event) {
-                        if(event instanceof PostInsertGeneratorEvent) {
-                            return false;
-                        }
-                        return true;
+                .setEventFilter(event -> {
+                    if(event instanceof PostInsertGeneratorEvent) {
+                        return false;
                     }
+                    return true;
                 })
         ).init();
+    }
 
-        List<Event> events = listEventHandler.getEvents();
-        assertTrue(events.isEmpty());
+    @Test
+    public void test() {
+        assertNoEventTriggered(EntityMappingEvent.class);
+    }
+
+    protected void assertNoEventTriggered(Class<? extends Event> baseClass) {
+        for (Event event : listEventHandler.getEvents()) {
+            if(baseClass.isAssignableFrom(event.getClass())) {
+                fail("The " + event + " was unexpectedly triggered!");
+            }
+        }
     }
 
     @Entity(name = "Post")

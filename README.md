@@ -60,7 +60,7 @@ If you are using Spring, you can try the JPA or Hibernate modules.
 The `hypersistence-optimizer-spring-jpa-example` shows how you can integrate the Hypersistence Optimizer with a Spring JPA application.
 
 ````java
-final ListEventHandler listEventListener = new ListEventHandler();
+final ListEventHandler listEventHandler = new ListEventHandler();
 
 new HypersistenceOptimizer(
     new JpaConfig(
@@ -68,7 +68,7 @@ new HypersistenceOptimizer(
     )
     .setEventHandler(new ChainEventHandler(
         Arrays.asList(
-            listEventListener,
+            listEventHandler,
             LogEventHandler.INSTANCE
         )
     ))
@@ -80,7 +80,7 @@ new HypersistenceOptimizer(
 The `hypersistence-optimizer-spring-hibernate-example` shows how you can integrate the Hypersistence Optimizer with a Spring Hibernate application.
 
 ````java
-final ListEventHandler listEventListener = new ListEventHandler();
+final ListEventHandler listEventHandler = new ListEventHandler();
 
 new HypersistenceOptimizer(
     new HibernateConfig(
@@ -88,7 +88,7 @@ new HypersistenceOptimizer(
     )
     .setEventHandler(new ChainEventHandler(
         Arrays.asList(
-            listEventListener,
+            listEventHandler,
             LogEventHandler.INSTANCE
         )
     ))

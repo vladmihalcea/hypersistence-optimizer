@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -33,13 +34,12 @@ public class ChainEventHandlerTest extends AbstractTest {
         };
     }
 
-    @Test
-    public void test() {
+    private ListEventHandler listEventHandler = new ListEventHandler();
 
-        ListEventHandler listEventHandler = new ListEventHandler();
-
+    @Override
+    protected void afterInit() {
         new HypersistenceOptimizer(
-                new JpaConfig(entityManagerFactory())
+            new JpaConfig(entityManagerFactory())
                 .setEventHandler(new ChainEventHandler(
                     Arrays.asList(
                         LogEventHandler.INSTANCE,
@@ -47,9 +47,23 @@ public class ChainEventHandlerTest extends AbstractTest {
                     )
                 ))
         ).init();
+    }
 
-        List<Event> events = listEventHandler.getEvents();
-        assertTrue(events.stream().anyMatch(event -> event instanceof EagerFetchingEvent));
+    @Test
+    public void test() {
+        assertEventTriggered(1, EagerFetchingEvent.class);
+    }
+
+    protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {
+        int count = 0;
+
+        for (Event event : listEventHandler.getEvents()) {
+            if (event.getClass().equals(eventClass)) {
+                count++;
+            }
+        }
+
+        assertSame(expectedCount, count);
     }
 
     @Entity(name = "Post")

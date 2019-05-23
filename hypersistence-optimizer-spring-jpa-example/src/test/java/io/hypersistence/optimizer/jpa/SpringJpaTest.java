@@ -11,6 +11,9 @@ import io.hypersistence.optimizer.forum.domain.Post;
 import io.hypersistence.optimizer.forum.domain.Tag;
 import io.hypersistence.optimizer.forum.service.ForumService;
 import io.hypersistence.optimizer.hibernate.event.configuration.connection.SkipAutoCommitCheckEvent;
+import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryInClauseParameterPaddingEvent;
+import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryPaginationCollectionFetchingEvent;
+import io.hypersistence.optimizer.hibernate.event.configuration.schema.SchemaGenerationEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.ManyToManyListEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneParentSideEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWithoutMapsIdEvent;
@@ -36,6 +39,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
 /**
  * @author Vlad Mihalcea
@@ -56,8 +60,22 @@ public class SpringJpaTest {
     @Autowired
     private ForumService forumService;
 
+    private final ListEventHandler listEventHandler = new ListEventHandler();
+
     @Before
     public void init() {
+        new HypersistenceOptimizer(
+            new JpaConfig(
+                entityManager.getEntityManagerFactory()
+            )
+            .setEventHandler(new ChainEventHandler(
+                Arrays.asList(
+                    listEventHandler,
+                    LogEventHandler.INSTANCE
+                )
+            ))
+        ).init();
+
         try {
             transactionTemplate.execute((TransactionCallback<Void>) transactionStatus -> {
                 Tag hibernate = new Tag();
@@ -89,31 +107,25 @@ public class SpringJpaTest {
 
     @Test
     public void testOptimizer() {
-        final ListEventHandler listEventListener = new ListEventHandler();
+        assertEventTriggered(2, EagerFetchingEvent.class);
+        assertEventTriggered(1, ManyToManyListEvent.class);
+        assertEventTriggered(1, OneToOneParentSideEvent.class);
+        assertEventTriggered(1, OneToOneWithoutMapsIdEvent.class);
+        assertEventTriggered(1, SkipAutoCommitCheckEvent.class);
+        assertEventTriggered(1, SchemaGenerationEvent.class);
+        assertEventTriggered(1, QueryPaginationCollectionFetchingEvent.class);
+        assertEventTriggered(1, QueryInClauseParameterPaddingEvent.class);
+    }
 
-        new HypersistenceOptimizer(
-            new JpaConfig(
-                entityManager.getEntityManagerFactory()
-            )
-            .setEventHandler(new ChainEventHandler(
-                Arrays.asList(
-                    listEventListener,
-                    LogEventHandler.INSTANCE
-                )
-            ))
-        ).init();
+    protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {
+        int count = 0;
 
-        List<Class<?extends Event>> eventClasses = listEventListener.getEvents()
-                .stream()
-                .map(Event::getClass)
-                .distinct()
-                .collect(Collectors.toList());
+        for (Event event : listEventHandler.getEvents()) {
+            if (event.getClass().equals(eventClass)) {
+                count++;
+            }
+        }
 
-        assertEquals(5, eventClasses.size());
-        eventClasses.contains(EagerFetchingEvent.class);
-        eventClasses.contains(ManyToManyListEvent.class);
-        eventClasses.contains(OneToOneParentSideEvent.class);
-        eventClasses.contains(OneToOneWithoutMapsIdEvent.class);
-        eventClasses.contains(SkipAutoCommitCheckEvent.class);
+        assertSame(expectedCount, count);
     }
 }

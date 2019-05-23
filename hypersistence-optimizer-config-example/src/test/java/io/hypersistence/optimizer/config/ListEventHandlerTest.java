@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -38,19 +39,31 @@ public class ListEventHandlerTest extends AbstractTest {
         };
     }
 
-    @Test
-    public void test() {
+    private ListEventHandler listEventHandler = new ListEventHandler();
 
-        ListEventHandler listEventHandler = new ListEventHandler();
-
+    @Override
+    protected void afterInit() {
         new HypersistenceOptimizer(
-                new JpaConfig(entityManagerFactory())
+            new JpaConfig(entityManagerFactory())
                 .setEventHandler(listEventHandler)
         ).init();
+    }
 
-        List<Event> events = listEventHandler.getEvents();
-        assertEquals(1, events.size());
-        assertTrue(events.get(0) instanceof EagerFetchingEvent);
+    @Test
+    public void test() {
+        assertEventTriggered(1, EagerFetchingEvent.class);
+    }
+
+    protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {
+        int count = 0;
+
+        for (Event event : listEventHandler.getEvents()) {
+            if (event.getClass().equals(eventClass)) {
+                count++;
+            }
+        }
+
+        assertSame(expectedCount, count);
     }
 
     @Entity(name = "Post")
