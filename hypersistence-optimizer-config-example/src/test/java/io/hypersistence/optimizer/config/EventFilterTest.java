@@ -8,6 +8,7 @@ import io.hypersistence.optimizer.core.event.ListEventHandler;
 import io.hypersistence.optimizer.hibernate.event.configuration.connection.SkipAutoCommitCheckEvent;
 import io.hypersistence.optimizer.hibernate.event.configuration.dialect.DialectVersionEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.EntityMappingEvent;
+import io.hypersistence.optimizer.hibernate.event.mapping.identifier.IdentityGeneratorEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.identifier.PostInsertGeneratorEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
 import io.hypersistence.optimizer.util.providers.Database;
@@ -43,13 +44,8 @@ public class EventFilterTest extends AbstractTest {
     protected void afterInit() {
         new HypersistenceOptimizer(
             new JpaConfig(entityManagerFactory())
-                .setEventHandler(listEventHandler)
-                .setEventFilter(event -> {
-                    if(event instanceof PostInsertGeneratorEvent) {
-                        return false;
-                    }
-                    return true;
-                })
+                .addEventHandler(listEventHandler)
+                .setEventFilter(event -> !(event instanceof IdentityGeneratorEvent))
         ).init();
     }
 

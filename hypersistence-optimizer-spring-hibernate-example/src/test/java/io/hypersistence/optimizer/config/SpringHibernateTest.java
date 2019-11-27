@@ -66,12 +66,7 @@ public class SpringHibernateTest {
             new HibernateConfig(
                 sessionFactory
             )
-            .setEventHandler(new ChainEventHandler(
-                Arrays.asList(
-                        listEventHandler,
-                    LogEventHandler.INSTANCE
-                )
-            ))
+            .addEventHandler(listEventHandler)
         ).init();
 
         try {

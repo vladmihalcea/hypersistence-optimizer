@@ -29,17 +29,16 @@ public class PostComment {
 Hypersistence Optimizer will log the following error message when scanning this entity:
 
 ```bash
-ERROR [main]: Hypersistence Optimizer - CRITICAL - EagerFetchingEvent - 
-The [post] attribute in the [io.hypersistence.optimizer.hibernate.mapping.association.fetching.eager.EagerFetchingManyToOneTest$PostComment] entity uses eager fetching. 
+ERROR [main]: Hypersistence Optimizer - CRITICAL - EagerFetchingEvent - The [post] attribute in the [io.hypersistence.optimizer.config.mapping.association.fetching.eager.EagerFetchingManyToOneTest$PostComment] entity uses eager fetching. Consider using a lazy fetching which, not only that is more efficient, but it is way more flexible when it comes to fetching data. 
 
-Consider using a lazy fetching which, not only that is more efficient, but it is way more flexible when it comes to fetching data.
+For more info about this event, check out this User Guide link - https://vladmihalcea.com/hypersistence-optimizer/docs/user-guide/#EagerFetchingEvent
 ````
 
 ## Test case module
 
-If you want to play with it, you need to install the library which is available [here](https://vladmihalcea.com/hypersistence-optimizer/).
+If you want to play with it, you need to install the library, which is available [here](https://vladmihalcea.com/hypersistence-optimizer/).
 
-Afterwards, if you want to play with it, you can use the `hypersistence-optimizer-test-case` module and run the [`EagerFetchingManyToOneTest`](https://github.com/vladmihalcea/hypersistence-optimizer/blob/404c6841ad8e0cb4c031107ed0b4356321661034/hypersistence-optimizer-test-case/src/test/java/io/hypersistence/optimizer/hibernate/mapping/association/fetching/eager/EagerFetchingManyToOneTest.java) test class which uses the aformentioned `PostComment` entity mapping.
+Afterward, if you want to play with it, you can use the `hypersistence-optimizer-test-case` module and run the [`EagerFetchingManyToOneTest`](https://github.com/vladmihalcea/hypersistence-optimizer/blob/404c6841ad8e0cb4c031107ed0b4356321661034/hypersistence-optimizer-test-case/src/test/java/io/hypersistence/optimizer/hibernate/mapping/association/fetching/eager/EagerFetchingManyToOneTest.java) test class, which uses the aforementioned `PostComment` entity mapping.
 
 ### Issue management
 
@@ -51,7 +50,26 @@ When you are done, please send your test case as a Pull Request, and I'll take c
 
 And, thank you for using this tool and for wanting to make it even more awesome.
 
-## Spring example
+### Spring Boot
+
+The `hypersistence-optimizer-spring-boot-example` shows how you can integrate the Hypersistence Optimizer with a Spring Boot application.
+
+````java
+@PersistenceUnit
+private EntityManagerFactory entityManagerFactory;
+
+private final ListEventHandler listEventHandler = new ListEventHandler();
+
+@Before
+public void init() {
+    new HypersistenceOptimizer(
+        new JpaConfig(entityManagerFactory)
+            .addEventHandler(listEventHandler)
+    ).init();
+}
+````
+
+## Spring framework examples
 
 If you are using Spring, you can try the JPA or Hibernate modules.
 
@@ -66,12 +84,7 @@ new HypersistenceOptimizer(
     new JpaConfig(
         entityManager.getEntityManagerFactory()
     )
-    .setEventHandler(new ChainEventHandler(
-        Arrays.asList(
-            listEventHandler,
-            LogEventHandler.INSTANCE
-        )
-    ))
+    .addEventHandler(listEventHandler)
 ).init();
 ````
 
@@ -86,15 +99,10 @@ new HypersistenceOptimizer(
     new HibernateConfig(
         sessionFactory
     )
-    .setEventHandler(new ChainEventHandler(
-        Arrays.asList(
-            listEventHandler,
-            LogEventHandler.INSTANCE
-        )
-    ))
+    .addEventHandler(listEventHandler)
 ).init();
 ````
 
 It's as simple as that! 
 
-Enjoy running you data access layer at warp speed now.
+Enjoy running your data access layer at warp speed now.

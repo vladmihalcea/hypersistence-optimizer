@@ -45,7 +45,7 @@ public class ListEventHandlerTest extends AbstractTest {
     protected void afterInit() {
         new HypersistenceOptimizer(
             new JpaConfig(entityManagerFactory())
-                .setEventHandler(listEventHandler)
+                .addEventHandler(listEventHandler)
         ).init();
     }
 

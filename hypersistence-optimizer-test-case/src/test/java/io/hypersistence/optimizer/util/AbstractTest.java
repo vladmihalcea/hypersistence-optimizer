@@ -3,12 +3,9 @@ package io.hypersistence.optimizer.util;
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.Config;
 import io.hypersistence.optimizer.core.config.HibernateConfig;
-import io.hypersistence.optimizer.core.event.ChainEventHandler;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
-import io.hypersistence.optimizer.core.event.LogEventHandler;
 import io.hypersistence.optimizer.core.exception.DefaultExceptionHandler;
-import io.hypersistence.optimizer.core.exception.ExceptionHandler;
 import io.hypersistence.optimizer.util.providers.DataSourceProvider;
 import io.hypersistence.optimizer.util.providers.Database;
 import io.hypersistence.optimizer.util.transaction.HibernateTransactionConsumer;
@@ -116,13 +113,13 @@ public abstract class AbstractTest {
 
     private SessionFactory newSessionFactory() {
         final BootstrapServiceRegistryBuilder bsrb = new BootstrapServiceRegistryBuilder()
-                .enableAutoClose();
+            .enableAutoClose();
 
         final BootstrapServiceRegistry bsr = bsrb.build();
 
         final StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder(bsr)
-                .applySettings(properties())
-                .build();
+            .applySettings(properties())
+            .build();
 
         final MetadataSources metadataSources = new MetadataSources(serviceRegistry);
 
@@ -164,14 +161,14 @@ public abstract class AbstractTest {
         configuration.put(AvailableSettings.INTERCEPTOR, interceptor());
 
         EntityManagerFactoryBuilderImpl entityManagerFactoryBuilder = new EntityManagerFactoryBuilderImpl(
-                new PersistenceUnitInfoDescriptor(persistenceUnitInfo), configuration
+            new PersistenceUnitInfoDescriptor(persistenceUnitInfo), configuration
         );
         return entityManagerFactoryBuilder.build();
     }
 
     protected PersistenceUnitInfoImpl persistenceUnitInfo(String name) {
         PersistenceUnitInfoImpl persistenceUnitInfo = new PersistenceUnitInfoImpl(
-                name, entityClassNames(), properties()
+            name, entityClassNames(), properties()
         );
         String[] resources = resources();
         if (resources != null) {
@@ -204,9 +201,9 @@ public abstract class AbstractTest {
 
     protected DataSource newDataSource() {
         DataSource dataSource =
-                proxyDataSource()
-                        ? dataSourceProxyType().dataSource(dataSourceProvider().dataSource())
-                        : dataSourceProvider().dataSource();
+            proxyDataSource()
+                ? dataSourceProxyType().dataSource(dataSourceProvider().dataSource())
+                : dataSourceProvider().dataSource();
         return dataSource;
     }
 
@@ -223,20 +220,12 @@ public abstract class AbstractTest {
     }
 
     protected HypersistenceOptimizer hypersistenceOptimizer() {
-        Config config = new HibernateConfig(sessionFactory());
-        config.setEventHandler(new ChainEventHandler(
-                Arrays.asList(
-                        listEventHandler,
-                        LogEventHandler.INSTANCE
-                )
-        ));
-        config.setExceptionHandler(new ExceptionHandler() {
-            @Override
-            public void handle(Exception e) {
+        Config config = new HibernateConfig(sessionFactory())
+            .addEventHandler(listEventHandler)
+            .setExceptionHandler(e -> {
                 DefaultExceptionHandler.INSTANCE.handle(e);
                 exceptions.add(e);
-            }
-        });
+            });
 
         return new HypersistenceOptimizer(config);
     }

@@ -16,8 +16,8 @@ public class EagerFetchingManyToOneTest extends AbstractHypersistenceOptimizerTe
     @Override
     public Class<?>[] entities() {
         return new Class<?>[]{
-                Post.class,
-                PostComment.class
+            Post.class,
+            PostComment.class
         };
     }
 

@@ -18,7 +18,6 @@ package io.hypersistence.optimizer.forum;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.JpaConfig;
-import io.hypersistence.optimizer.core.event.ChainEventHandler;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
 import io.hypersistence.optimizer.core.event.LogEventHandler;
@@ -38,11 +37,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 @RunWith(SpringRunner.class)
@@ -58,12 +53,7 @@ public class ApplicationTest {
     public void init() {
         new HypersistenceOptimizer(
             new JpaConfig(entityManagerFactory)
-                .setEventHandler(new ChainEventHandler(
-                    Arrays.asList(
-                        listEventHandler,
-                        LogEventHandler.INSTANCE
-                    )
-                ))
+                .addEventHandler(listEventHandler)
         ).init();
     }
 

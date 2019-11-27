@@ -68,12 +68,7 @@ public class SpringJpaTest {
             new JpaConfig(
                 entityManager.getEntityManagerFactory()
             )
-            .setEventHandler(new ChainEventHandler(
-                Arrays.asList(
-                    listEventHandler,
-                    LogEventHandler.INSTANCE
-                )
-            ))
+            .addEventHandler(listEventHandler)
         ).init();
 
         try {

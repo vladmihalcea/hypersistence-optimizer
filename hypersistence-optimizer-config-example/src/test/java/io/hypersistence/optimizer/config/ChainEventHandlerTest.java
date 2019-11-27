@@ -2,10 +2,8 @@ package io.hypersistence.optimizer.config;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.JpaConfig;
-import io.hypersistence.optimizer.core.event.ChainEventHandler;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
-import io.hypersistence.optimizer.core.event.LogEventHandler;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
 import org.junit.Test;
@@ -14,12 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.Arrays;
-import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Vlad Mihalcea
@@ -29,8 +23,8 @@ public class ChainEventHandlerTest extends AbstractTest {
     @Override
     public Class<?>[] entities() {
         return new Class<?>[]{
-                Post.class,
-                PostComment.class
+            Post.class,
+            PostComment.class
         };
     }
 
@@ -40,12 +34,9 @@ public class ChainEventHandlerTest extends AbstractTest {
     protected void afterInit() {
         new HypersistenceOptimizer(
             new JpaConfig(entityManagerFactory())
-                .setEventHandler(new ChainEventHandler(
-                    Arrays.asList(
-                        LogEventHandler.INSTANCE,
-                        listEventHandler
-                    )
-                ))
+                .addEventHandler(
+                    listEventHandler
+                )
         ).init();
     }
 
