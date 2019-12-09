@@ -3,22 +3,15 @@ package io.hypersistence.optimizer.config;
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.core.event.Event;
-import io.hypersistence.optimizer.core.event.EventFilter;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
-import io.hypersistence.optimizer.hibernate.event.configuration.connection.SkipAutoCommitCheckEvent;
-import io.hypersistence.optimizer.hibernate.event.configuration.dialect.DialectVersionEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.EntityMappingEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.identifier.IdentityGeneratorEvent;
-import io.hypersistence.optimizer.hibernate.event.mapping.identifier.PostInsertGeneratorEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
 import io.hypersistence.optimizer.util.providers.Database;
 import org.junit.Test;
 
 import javax.persistence.*;
-import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
@@ -34,7 +27,7 @@ public class EventFilterTest extends AbstractTest {
     @Override
     public Class<?>[] entities() {
         return new Class<?>[]{
-                Post.class
+            Post.class
         };
     }
 
@@ -56,7 +49,7 @@ public class EventFilterTest extends AbstractTest {
 
     protected void assertNoEventTriggered(Class<? extends Event> baseClass) {
         for (Event event : listEventHandler.getEvents()) {
-            if(baseClass.isAssignableFrom(event.getClass())) {
+            if (baseClass.isAssignableFrom(event.getClass())) {
                 fail("The " + event + " was unexpectedly triggered!");
             }
         }
