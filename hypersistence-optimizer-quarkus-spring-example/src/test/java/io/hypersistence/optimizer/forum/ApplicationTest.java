@@ -21,14 +21,14 @@ import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.forum.domain.Post;
 import io.hypersistence.optimizer.forum.domain.Tag;
 import io.hypersistence.optimizer.forum.service.ForumService;
-import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryInClauseParameterPaddingEvent;
-import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryPaginationCollectionFetchingEvent;
+import io.hypersistence.optimizer.hibernate.event.configuration.query.Query7786258879Event;
+import io.hypersistence.optimizer.hibernate.event.configuration.query.Query2468924130Event;
 import io.hypersistence.optimizer.hibernate.event.configuration.schema.SchemaGenerationEvent;
-import io.hypersistence.optimizer.hibernate.event.mapping.association.ManyToManyListEvent;
-import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneParentSideEvent;
+import io.hypersistence.optimizer.hibernate.event.mapping.association.Association3890524098Event;
+import io.hypersistence.optimizer.hibernate.event.mapping.association.Association934543432Event;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWithoutMapsIdEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
-import io.hypersistence.optimizer.hibernate.event.query.PaginationWithoutOrderByEvent;
+import io.hypersistence.optimizer.hibernate.event.query.QueryEvent;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.quarkus.test.junit.QuarkusTest;
@@ -80,13 +80,13 @@ public class ApplicationTest {
     @Test
     public void test() throws ExecutionException, InterruptedException {
         assertEventTriggered(2, EagerFetchingEvent.class);
-        assertEventTriggered(1, ManyToManyListEvent.class);
-        assertEventTriggered(1, OneToOneParentSideEvent.class);
+        assertEventTriggered(1, Association3890524098Event.class);
+        assertEventTriggered(1, Association934543432Event.class);
         assertEventTriggered(1, OneToOneWithoutMapsIdEvent.class);
-        //assertEventTriggered(1, SkipAutoCommitCheckEvent.class); - Quarkus uses JTA and not Resource Local datasource
+        //assertEventTriggered(1, Connection9071557016Event.class); - Quarkus uses JTA and not Resource Local datasource
         assertEventTriggered(1, SchemaGenerationEvent.class);
-        assertEventTriggered(1, QueryPaginationCollectionFetchingEvent.class);
-        assertEventTriggered(1, QueryInClauseParameterPaddingEvent.class);
+        assertEventTriggered(1, Query2468924130Event.class);
+        assertEventTriggered(1, Query7786258879Event.class);
 
         Post newPost = null;
 
@@ -102,9 +102,9 @@ public class ApplicationTest {
         assertEquals("High-Performance Java Persistence", post.getTitle());
 
         //TODO - Quarkus does not allow to set some hibernate properties, so after some enhancements these events can be fixed
-        //assertEventTriggered(0, PaginationWithoutOrderByEvent.class);
+        //assertEventTriggered(0, QueryEvent.class);
         //assertEquals(5, forumService.findAll(5).size());
-        //assertEventTriggered(1, PaginationWithoutOrderByEvent.class);
+        //assertEventTriggered(1, QueryEvent.class);
 
         hypersistenceOptimizer.getEvents().clear();
 
