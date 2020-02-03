@@ -21,17 +21,17 @@ import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.forum.domain.Post;
 import io.hypersistence.optimizer.forum.domain.Tag;
 import io.hypersistence.optimizer.forum.service.ForumService;
-import io.hypersistence.optimizer.hibernate.event.configuration.connection.SkipAutoCommitCheckEvent;
-import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryInClauseParameterPaddingEvent;
-import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryPaginationCollectionFetchingEvent;
+import io.hypersistence.optimizer.hibernate.event.configuration.connection.Connection9071557016Event;
+import io.hypersistence.optimizer.hibernate.event.configuration.query.Query7786258879Event;
+import io.hypersistence.optimizer.hibernate.event.configuration.query.Query2468924130Event;
 import io.hypersistence.optimizer.hibernate.event.configuration.schema.SchemaGenerationEvent;
-import io.hypersistence.optimizer.hibernate.event.mapping.association.ManyToManyListEvent;
-import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneParentSideEvent;
+import io.hypersistence.optimizer.hibernate.event.mapping.association.Association3890524098Event;
+import io.hypersistence.optimizer.hibernate.event.mapping.association.Association934543432Event;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWithoutMapsIdEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
-import io.hypersistence.optimizer.hibernate.event.query.PaginationWithoutOrderByEvent;
-import io.hypersistence.optimizer.hibernate.event.session.SessionTimeoutEvent;
-import org.junit.jupiter.api.BeforeEach;
+import io.hypersistence.optimizer.hibernate.event.query.QueryEvent;
+import io.hypersistence.optimizer.hibernate.event.session.SessionEvent;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +49,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 @SpringBootTest
 public class ApplicationTest {
@@ -74,7 +74,7 @@ public class ApplicationTest {
         return bob;
     });
 
-    @BeforeEach
+    @Before
     public void init() {
         try {
             transactionTemplate.execute((TransactionCallback<Void>) transactionStatus -> {
@@ -95,13 +95,13 @@ public class ApplicationTest {
     @Test
     public void test() throws ExecutionException, InterruptedException {
         assertEventTriggered(2, EagerFetchingEvent.class);
-        assertEventTriggered(1, ManyToManyListEvent.class);
-        assertEventTriggered(1, OneToOneParentSideEvent.class);
+        assertEventTriggered(1, Association3890524098Event.class);
+        assertEventTriggered(1, Association934543432Event.class);
         assertEventTriggered(1, OneToOneWithoutMapsIdEvent.class);
-        assertEventTriggered(1, SkipAutoCommitCheckEvent.class);
+        assertEventTriggered(1, Connection9071557016Event.class);
         assertEventTriggered(1, SchemaGenerationEvent.class);
-        assertEventTriggered(1, QueryPaginationCollectionFetchingEvent.class);
-        assertEventTriggered(1, QueryInClauseParameterPaddingEvent.class);
+        assertEventTriggered(1, Query2468924130Event.class);
+        assertEventTriggered(1, Query7786258879Event.class);
 
         Post newPost = null;
 
@@ -116,9 +116,9 @@ public class ApplicationTest {
         Post post = forumService.findById(newPost.getId());
         assertEquals("High-Performance Java Persistence", post.getTitle());
 
-        assertEventTriggered(0, PaginationWithoutOrderByEvent.class);
+        assertEventTriggered(0, QueryEvent.class);
         assertEquals(5, forumService.findAll(5).size());
-        assertEventTriggered(1, PaginationWithoutOrderByEvent.class);
+        assertEventTriggered(1, QueryEvent.class);
 
         hypersistenceOptimizer.getEvents().clear();
 
@@ -133,7 +133,7 @@ public class ApplicationTest {
             }
         )).get();
 
-        assertEventTriggered(1, SessionTimeoutEvent.class);
+        assertEventTriggered(1, SessionEvent.class);
     }
 
     protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {
