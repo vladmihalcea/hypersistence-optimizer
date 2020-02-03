@@ -2,10 +2,7 @@ package io.hypersistence.optimizer.config;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.HibernateConfig;
-import io.hypersistence.optimizer.core.event.ChainEventHandler;
 import io.hypersistence.optimizer.core.event.Event;
-import io.hypersistence.optimizer.core.event.ListEventHandler;
-import io.hypersistence.optimizer.core.event.LogEventHandler;
 import io.hypersistence.optimizer.forum.domain.Post;
 import io.hypersistence.optimizer.forum.domain.Tag;
 import io.hypersistence.optimizer.forum.service.ForumService;
@@ -17,6 +14,7 @@ import io.hypersistence.optimizer.hibernate.event.mapping.association.ManyToMany
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneParentSideEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWithoutMapsIdEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
+import io.hypersistence.optimizer.hibernate.event.query.PaginationWithoutOrderByEvent;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,13 +29,9 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 /**
  * @author Vlad Mihalcea
@@ -58,16 +52,15 @@ public class SpringHibernateTest {
     @Autowired
     private ForumService forumService;
 
-    private final ListEventHandler listEventHandler = new ListEventHandler();
+    private HypersistenceOptimizer hypersistenceOptimizer;
 
     @Before
     public void init() {
-        new HypersistenceOptimizer(
+        hypersistenceOptimizer = new HypersistenceOptimizer(
             new HibernateConfig(
                 sessionFactory
             )
-            .addEventHandler(listEventHandler)
-        ).init();
+        );
 
         try {
             transactionTemplate.execute((TransactionCallback<Void>) transactionStatus -> {
@@ -87,18 +80,6 @@ public class SpringHibernateTest {
 
     @Test
     public void test() {
-        Post newPost = forumService.newPost("High-Performance Java Persistence", "hibernate", "jpa");
-        assertNotNull(newPost.getId());
-
-        List<Post> posts = forumService.findAllByTitle("High-Performance Java Persistence");
-        assertEquals(1, posts.size());
-
-        Post post = forumService.findById(newPost.getId());
-        assertEquals("High-Performance Java Persistence", post.getTitle());
-    }
-
-    @Test
-    public void testOptimizer() {
         assertEventTriggered(2, EagerFetchingEvent.class);
         assertEventTriggered(1, ManyToManyListEvent.class);
         assertEventTriggered(1, OneToOneParentSideEvent.class);
@@ -107,12 +88,25 @@ public class SpringHibernateTest {
         assertEventTriggered(1, SchemaGenerationEvent.class);
         assertEventTriggered(1, QueryPaginationCollectionFetchingEvent.class);
         assertEventTriggered(1, QueryInClauseParameterPaddingEvent.class);
+
+        Post newPost = forumService.newPost("High-Performance Java Persistence", "hibernate", "jpa");
+        assertNotNull(newPost.getId());
+
+        List<Post> posts = forumService.findAllByTitle("High-Performance Java Persistence");
+        assertEquals(1, posts.size());
+
+        Post post = forumService.findById(newPost.getId());
+        assertEquals("High-Performance Java Persistence", post.getTitle());
+
+        assertEventTriggered(0, PaginationWithoutOrderByEvent.class);
+        assertEquals(1, forumService.findAll(5).size());
+        assertEventTriggered(1, PaginationWithoutOrderByEvent.class);
     }
 
     protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {
         int count = 0;
 
-        for (Event event : listEventHandler.getEvents()) {
+        for (Event event : hypersistenceOptimizer.getEvents()) {
             if (event.getClass().equals(eventClass)) {
                 count++;
             }

@@ -31,7 +31,7 @@ import java.util.List;
  * @author Vlad Mihalcea
  */
 @Repository
-public interface PostRepository extends CrudRepository<Post, Long> {
+public interface PostRepository extends CrudRepository<Post, Long>, CustomPostRepository {
 
     List<Post> findByTitle(String title);
 }

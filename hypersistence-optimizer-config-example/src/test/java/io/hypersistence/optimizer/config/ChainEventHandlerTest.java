@@ -51,7 +51,7 @@ public class ChainEventHandlerTest extends AbstractTest {
                         )
                     )
                 )
-        ).init();
+        );
     }
 
     @Test

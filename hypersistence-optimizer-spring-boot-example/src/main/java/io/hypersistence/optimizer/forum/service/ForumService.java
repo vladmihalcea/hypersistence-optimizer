@@ -11,9 +11,11 @@ import java.util.List;
 @Service
 public interface ForumService {
 
-    Post newPost(String title, String... tags);
+    Post newPost(String title, List<String> tags);
 
     List<Post> findAllByTitle(String title);
 
     Post findById(Long id);
+
+    List<Post> findAll(int maxResults);
 }

@@ -42,8 +42,14 @@
 		<module>hypersistence-optimizer-test-case</module>
 		<module>hypersistence-optimizer-config-example</module>
 		<module>hypersistence-optimizer-spring-hibernate-example</module>
+		<module>hypersistence-optimizer-spring-hibernate4-example </module>
+		<module>hypersistence-optimizer-spring-hibernate3-example </module>
 		<module>hypersistence-optimizer-spring-jpa-example</module>
+		<module>hypersistence-optimizer-spring-jpa-hibernate4-example</module>
+		<module>hypersistence-optimizer-spring-jpa-hibernate3-example</module>
 		<module>hypersistence-optimizer-spring-boot-example</module>
+		<module>hypersistence-optimizer-glassfish-hibernate-example</module>
+		<module>hypersistence-optimizer-glassfish-hibernate4-example</module>
     </modules>
 
     <dependencies>
@@ -59,30 +65,24 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
-            <scope>provided</scope>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
-            <scope>provided</scope>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -182,7 +182,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <hypersistence-optimizer.version>1.2.4-SNAPSHOT</hypersistence-optimizer.version>
+        <hypersistence-optimizer.version>2.0.0-SNAPSHOT</hypersistence-optimizer.version>
+
+        <hibernate.version>5.4.11.Final</hibernate.version>
 
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
@@ -197,8 +199,6 @@
         <mysql.version>5.1.47</mysql.version>
 
         <datasource-proxy.version>1.3.3</datasource-proxy.version>
-
-        <hibernate.version>5.4.9.Final</hibernate.version>
 
         <hikari.version>1.3.3</hikari.version>
     </properties>

@@ -55,17 +55,20 @@ And, thank you for using this tool and for wanting to make it even more awesome.
 The `hypersistence-optimizer-spring-boot-example` shows how you can integrate the Hypersistence Optimizer with a Spring Boot application.
 
 ````java
-@PersistenceUnit
-private EntityManagerFactory entityManagerFactory;
+@Configuration
+public class HypersistenceConfiguration {
 
-private final ListEventHandler listEventHandler = new ListEventHandler();
+    @PersistenceUnit
+    private EntityManagerFactory entityManagerFactory;
 
-@Before
-public void init() {
-    new HypersistenceOptimizer(
-        new JpaConfig(entityManagerFactory)
-            .addEventHandler(listEventHandler)
-    ).init();
+    @Bean
+    public HypersistenceOptimizer hypersistenceOptimizer() {
+        return new HypersistenceOptimizer(
+            new JpaConfig(
+                entityManagerFactory
+            )
+        );
+    }
 }
 ````
 
@@ -78,14 +81,11 @@ If you are using Spring, you can try the JPA or Hibernate modules.
 The `hypersistence-optimizer-spring-jpa-example` shows how you can integrate the Hypersistence Optimizer with a Spring JPA application.
 
 ````java
-final ListEventHandler listEventHandler = new ListEventHandler();
-
 new HypersistenceOptimizer(
     new JpaConfig(
         entityManager.getEntityManagerFactory()
     )
-    .addEventHandler(listEventHandler)
-).init();
+);
 ````
 
 ### Spring and Hibernate example
@@ -93,14 +93,11 @@ new HypersistenceOptimizer(
 The `hypersistence-optimizer-spring-hibernate-example` shows how you can integrate the Hypersistence Optimizer with a Spring Hibernate application.
 
 ````java
-final ListEventHandler listEventHandler = new ListEventHandler();
-
 new HypersistenceOptimizer(
     new HibernateConfig(
         sessionFactory
     )
-    .addEventHandler(listEventHandler)
-).init();
+);
 ````
 
 It's as simple as that! 

@@ -1,5 +1,6 @@
 package io.hypersistence.optimizer.forum.dao;
 
+import io.hypersistence.optimizer.forum.domain.Post;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Vlad Mihalcea
@@ -45,5 +47,21 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
     public T persist(T entity) {
         getSession().persist(entity);
         return entity;
+    }
+
+    /**
+     * Find a number of entities given by the {@code maxResults} argument.
+     * This method intentionnaly avoids using ORDER BY so that
+     * Hypersistence Optimizer can detect the issue.
+     *
+     * @param maxResults the maximum number of entities to fetch
+     * @return entities being fetched
+     */
+    @Override
+    public List<T> findAll(int maxResults) {
+        return getSession()
+            .createCriteria(entityClass)
+            .setMaxResults(maxResults)
+            .list();
     }
 }

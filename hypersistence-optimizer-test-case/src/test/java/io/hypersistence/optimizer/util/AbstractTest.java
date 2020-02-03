@@ -3,8 +3,6 @@ package io.hypersistence.optimizer.util;
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.Config;
 import io.hypersistence.optimizer.core.config.HibernateConfig;
-import io.hypersistence.optimizer.core.event.Event;
-import io.hypersistence.optimizer.core.event.ListEventHandler;
 import io.hypersistence.optimizer.core.exception.DefaultExceptionHandler;
 import io.hypersistence.optimizer.util.providers.DataSourceProvider;
 import io.hypersistence.optimizer.util.providers.Database;
@@ -40,8 +38,6 @@ import javax.persistence.spi.PersistenceUnitInfo;
 import javax.sql.DataSource;
 import java.util.*;
 
-import static org.junit.Assert.assertSame;
-
 public abstract class AbstractTest {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
@@ -51,8 +47,6 @@ public abstract class AbstractTest {
     private SessionFactory sf;
 
     private List<Exception> exceptions = new ArrayList<Exception>();
-
-    private ListEventHandler listEventHandler = new ListEventHandler();
 
     @Before
     public void init() {
@@ -221,17 +215,12 @@ public abstract class AbstractTest {
 
     protected HypersistenceOptimizer hypersistenceOptimizer() {
         Config config = new HibernateConfig(sessionFactory())
-            .addEventHandler(listEventHandler)
             .setExceptionHandler(e -> {
                 DefaultExceptionHandler.INSTANCE.handle(e);
                 exceptions.add(e);
             });
 
         return new HypersistenceOptimizer(config);
-    }
-
-    public ListEventHandler listEventHandler() {
-        return listEventHandler;
     }
 
     public List<Exception> exceptions() {
@@ -380,47 +369,5 @@ public abstract class AbstractTest {
                 entityManager.close();
             }
         }
-    }
-
-    protected void assertNoEventTriggered() {
-        int count = 0;
-
-        for (Event event : listEventHandler.getEvents()) {
-            count++;
-        }
-
-        assertSame(0, count);
-    }
-
-    protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {
-        int count = 0;
-
-        for (Event event : listEventHandler.getEvents()) {
-            if (event.getClass().equals(eventClass)) {
-                count++;
-            }
-        }
-
-        assertSame(expectedCount, count);
-    }
-
-    protected <T extends Event> T getTriggeredEvent(Class<T> eventClass) {
-        for (Event event : listEventHandler.getEvents()) {
-            if (event.getClass().equals(eventClass)) {
-                return (T) event;
-            }
-        }
-        return null;
-    }
-
-    protected <T extends Event> List<T> getTriggeredEvents(Class<T> eventClass) {
-        List<T> matchingEvents = new ArrayList<T>();
-
-        for (Event event : listEventHandler.getEvents()) {
-            if (event.getClass().equals(eventClass)) {
-                matchingEvents.add((T) event);
-            }
-        }
-        return matchingEvents;
     }
 }

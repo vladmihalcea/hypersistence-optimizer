@@ -33,5 +33,5 @@ import java.util.List;
 @Repository
 public interface TagRepository extends CrudRepository<Tag, Long> {
 
-    List<Tag> findByName(String... tags);
+    List<Tag> findByNameIn(List<String> tags);
 }

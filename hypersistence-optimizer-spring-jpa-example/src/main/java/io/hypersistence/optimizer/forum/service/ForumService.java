@@ -16,4 +16,6 @@ public interface ForumService {
     List<Post> findAllByTitle(String title);
 
     Post findById(Long id);
+
+    List<Post> findAll(int maxResults);
 }

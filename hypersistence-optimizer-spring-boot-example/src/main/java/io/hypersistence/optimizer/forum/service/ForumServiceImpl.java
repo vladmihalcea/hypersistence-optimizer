@@ -4,6 +4,7 @@ import io.hypersistence.optimizer.forum.dao.PostRepository;
 import io.hypersistence.optimizer.forum.dao.TagRepository;
 import io.hypersistence.optimizer.forum.domain.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * @author Vlad Mihalcea
  */
+@Service
 public class ForumServiceImpl implements ForumService {
 
     @Autowired
@@ -21,10 +23,10 @@ public class ForumServiceImpl implements ForumService {
 
     @Override
     @Transactional
-    public Post newPost(String title, String... tags) {
+    public Post newPost(String title, List<String> tags) {
         Post post = new Post();
         post.setTitle(title);
-        post.getTags().addAll(tagRepository.findByName(tags));
+        post.getTags().addAll(tagRepository.findByNameIn(tags));
         return postRepository.save(post);
     }
 
@@ -38,6 +40,11 @@ public class ForumServiceImpl implements ForumService {
     @Transactional
     public Post findById(Long id) {
         return postRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Post> findAll(int maxResults) {
+        return postRepository.findAll(maxResults);
     }
 }
 

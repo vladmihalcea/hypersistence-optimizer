@@ -19,8 +19,9 @@ package io.hypersistence.optimizer.forum;
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.core.event.Event;
-import io.hypersistence.optimizer.core.event.ListEventHandler;
-import io.hypersistence.optimizer.core.event.LogEventHandler;
+import io.hypersistence.optimizer.forum.domain.Post;
+import io.hypersistence.optimizer.forum.domain.Tag;
+import io.hypersistence.optimizer.forum.service.ForumService;
 import io.hypersistence.optimizer.hibernate.event.configuration.connection.SkipAutoCommitCheckEvent;
 import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryInClauseParameterPaddingEvent;
 import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryPaginationCollectionFetchingEvent;
@@ -29,36 +30,66 @@ import io.hypersistence.optimizer.hibernate.event.mapping.association.ManyToMany
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneParentSideEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWithoutMapsIdEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
+import io.hypersistence.optimizer.hibernate.event.query.PaginationWithoutOrderByEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.TransactionException;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class ApplicationTest {
 
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
+    protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
-    private final ListEventHandler listEventHandler = new ListEventHandler();
+    @Autowired
+    private HypersistenceOptimizer hypersistenceOptimizer;
+
+    @Autowired
+    private TransactionTemplate transactionTemplate;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Autowired
+    private ForumService forumService;
 
     @Before
     public void init() {
-        new HypersistenceOptimizer(
-            new JpaConfig(entityManagerFactory)
-                .addEventHandler(listEventHandler)
-        ).init();
+        try {
+            transactionTemplate.execute((TransactionCallback<Void>) transactionStatus -> {
+                Tag hibernate = new Tag();
+                hibernate.setName("hibernate");
+                entityManager.persist(hibernate);
+
+                Tag jpa = new Tag();
+                jpa.setName("jpa");
+                entityManager.persist(jpa);
+                return null;
+            });
+        } catch (TransactionException e) {
+            LOGGER.error("Failure", e);
+        }
     }
 
     @Test
-    public void testOptimizer() {
+    public void test() {
         assertEventTriggered(2, EagerFetchingEvent.class);
         assertEventTriggered(1, ManyToManyListEvent.class);
         assertEventTriggered(1, OneToOneParentSideEvent.class);
@@ -67,12 +98,25 @@ public class ApplicationTest {
         assertEventTriggered(1, SchemaGenerationEvent.class);
         assertEventTriggered(1, QueryPaginationCollectionFetchingEvent.class);
         assertEventTriggered(1, QueryInClauseParameterPaddingEvent.class);
+
+        Post newPost = forumService.newPost("High-Performance Java Persistence", Arrays.asList("hibernate", "jpa"));
+        assertNotNull(newPost.getId());
+
+        List<Post> posts = forumService.findAllByTitle("High-Performance Java Persistence");
+        assertEquals(1, posts.size());
+
+        Post post = forumService.findById(newPost.getId());
+        assertEquals("High-Performance Java Persistence", post.getTitle());
+
+        assertEventTriggered(0, PaginationWithoutOrderByEvent.class);
+        assertEquals(1, forumService.findAll(5).size());
+        assertEventTriggered(1, PaginationWithoutOrderByEvent.class);
     }
 
     protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {
         int count = 0;
 
-        for (Event event : listEventHandler.getEvents()) {
+        for (Event event : hypersistenceOptimizer.getEvents()) {
             if (event.getClass().equals(eventClass)) {
                 count++;
             }

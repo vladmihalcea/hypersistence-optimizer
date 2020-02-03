@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>io.hypersistence</groupId>
+        <artifactId>hypersistence-optimizer-public-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>hypersistence-optimizer-glassfish-hibernate4-example</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>Hypersistence Optimizer - Glassfish and Hibernate 4 example</name>
+    <description>An example demonstrating how you can detected performance issues in your Hibernate 4 application running on Glassfish.</description>
+
+    <dependencies>
+
+        <!-- Testing -->
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian</groupId>
+            <artifactId>arquillian-bom</artifactId>
+            <version>${arquillian.version}</version>
+            <scope>import</scope>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <version>${arquillian.junit.container.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+            <version>${arquillian.glassfish.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.main.extras</groupId>
+            <artifactId>glassfish-embedded-all</artifactId>
+            <version>${glassfish.embedded.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <hibernate.version>4.3.11.Final</hibernate.version>
+        <arquillian.version>1.0.3.Final</arquillian.version>
+        <arquillian.junit.container.version>1.0.3.Final</arquillian.junit.container.version>
+        <arquillian.glassfish.version>1.0.0.CR3</arquillian.glassfish.version>
+        <glassfish.embedded.version>4.1.2</glassfish.embedded.version>
+    </properties>
+
+    <build>
+        <defaultGoal>test</defaultGoal>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources-glassfish-embedded</directory>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <java.util.logging.config.file>
+                            ${project.build.testOutputDirectory}/logging.properties
+                        </java.util.logging.config.file>
+                        <derby.stream.error.file>
+                            ${project.build.directory}/derby.log
+                        </derby.stream.error.file>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
