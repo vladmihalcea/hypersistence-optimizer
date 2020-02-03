@@ -5,13 +5,9 @@ import io.hypersistence.optimizer.core.config.Config;
 import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
-import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
-import io.hypersistence.optimizer.hibernate.event.session.SessionTimeoutEvent;
+import io.hypersistence.optimizer.hibernate.event.session.SessionEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
-import io.hypersistence.optimizer.util.transaction.JPATransactionVoidFunction;
 import org.junit.Test;
-
-import javax.persistence.*;
 
 import java.util.Collections;
 
@@ -54,7 +50,7 @@ public class RuntimeConfigurationPropertiesTest extends AbstractTest {
             }
         });
 
-        assertEventTriggered(1, SessionTimeoutEvent.class);
+        assertEventTriggered(1, SessionEvent.class);
     }
 
     protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {
