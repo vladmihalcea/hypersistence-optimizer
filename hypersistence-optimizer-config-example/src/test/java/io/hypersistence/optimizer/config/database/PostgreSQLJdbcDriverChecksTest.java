@@ -1,8 +1,8 @@
 package io.hypersistence.optimizer.config.database;
 
 import io.hypersistence.optimizer.core.event.Event;
-import io.hypersistence.optimizer.jdbc.event.monitoring.JdbcApplicationNameEvent;
-import io.hypersistence.optimizer.jdbc.event.timeout.JdbcSocketTimeoutEvent;
+import io.hypersistence.optimizer.jdbc.event.monitoring.JdbcMonitoring7934948874Event;
+import io.hypersistence.optimizer.jdbc.event.timeout.JdbcTimeout3359973659Event;
 import io.hypersistence.optimizer.util.AbstractHypersistenceOptimizerTest;
 import io.hypersistence.optimizer.util.providers.Database;
 
@@ -34,9 +34,8 @@ public class PostgreSQLJdbcDriverChecksTest extends AbstractHypersistenceOptimiz
     @Override
     protected void verify() {
         for (Event event : hypersistenceOptimizer.getEvents()) {
-            LOGGER.info("{} - {}", event.getClass().getSimpleName(), event.getDescription());
         }
-        assertEventTriggered(1, JdbcApplicationNameEvent.class);
-        assertEventTriggered(1, JdbcSocketTimeoutEvent.class);
+        assertEventTriggered(1, JdbcMonitoring7934948874Event.class);
+        assertEventTriggered(1, JdbcTimeout3359973659Event.class);
     }
 }

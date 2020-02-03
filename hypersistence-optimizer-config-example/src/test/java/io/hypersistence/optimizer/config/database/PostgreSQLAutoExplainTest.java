@@ -1,6 +1,6 @@
 package io.hypersistence.optimizer.config.database;
 
-import io.hypersistence.optimizer.jdbc.event.server.PostgreSQLAutoExplainEvent;
+import io.hypersistence.optimizer.jdbc.event.server.DatabaseServer4381502617Event;
 import io.hypersistence.optimizer.util.AbstractHypersistenceOptimizerTest;
 import io.hypersistence.optimizer.util.providers.Database;
 
@@ -32,7 +32,6 @@ public class PostgreSQLAutoExplainTest extends AbstractHypersistenceOptimizerTes
 
     @Override
     protected void verify() {
-        assertEventTriggered(1, PostgreSQLAutoExplainEvent.class);
-        LOGGER.info(getTriggeredEvent(PostgreSQLAutoExplainEvent.class).getDescription());
+        assertEventTriggered(1, DatabaseServer4381502617Event.class);
     }
 }

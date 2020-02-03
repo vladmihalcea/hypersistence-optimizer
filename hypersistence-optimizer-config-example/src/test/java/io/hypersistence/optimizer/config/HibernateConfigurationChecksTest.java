@@ -1,7 +1,7 @@
 package io.hypersistence.optimizer.config;
 
-import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryPlanCacheDisabledEvent;
-import io.hypersistence.optimizer.hibernate.event.configuration.statistics.StatisticsGenerationEvent;
+import io.hypersistence.optimizer.hibernate.event.configuration.query.Query8231421015Event;
+import io.hypersistence.optimizer.hibernate.event.configuration.statistics.Statistics4045940880Event;
 import io.hypersistence.optimizer.util.AbstractHypersistenceOptimizerTest;
 
 import java.util.Properties;
@@ -28,7 +28,7 @@ public class HibernateConfigurationChecksTest extends AbstractHypersistenceOptim
 
     @Override
     protected void verify() {
-        assertEventTriggered(1, QueryPlanCacheDisabledEvent.class);
-        assertEventTriggered(1, StatisticsGenerationEvent.class);
+        assertEventTriggered(1, Query8231421015Event.class);
+        assertEventTriggered(1, Statistics4045940880Event.class);
     }
 }

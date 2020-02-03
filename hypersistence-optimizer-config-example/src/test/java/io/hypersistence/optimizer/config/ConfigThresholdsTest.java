@@ -5,8 +5,8 @@ import io.hypersistence.optimizer.core.config.ConfigThresholds;
 import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
-import io.hypersistence.optimizer.hibernate.event.query.QueryResultListSizeEvent;
-import io.hypersistence.optimizer.hibernate.event.session.SessionTimeoutEvent;
+import io.hypersistence.optimizer.hibernate.event.query.QueryEvent;
+import io.hypersistence.optimizer.hibernate.event.session.SessionEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
 import org.junit.Test;
 
@@ -73,8 +73,8 @@ public class ConfigThresholdsTest extends AbstractTest {
             }
         });
 
-        assertEventTriggered(1, QueryResultListSizeEvent.class);
-        assertEventTriggered(1, SessionTimeoutEvent.class);
+        assertEventTriggered(1, QueryEvent.class);
+        assertEventTriggered(1, SessionEvent.class);
     }
 
     protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {

@@ -3,7 +3,7 @@ package io.hypersistence.optimizer.forum.pool;
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.core.event.Event;
-import io.hypersistence.optimizer.jdbc.event.server.MySQLWaitTimeoutEvent;
+import io.hypersistence.optimizer.jdbc.event.server.DatabaseServer566701416Event;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import org.junit.jupiter.api.Test;
@@ -37,18 +37,14 @@ public class AgroalConnectionPoolTest {
             new JpaConfig(entityManagerFactory)
         );
 
-        List<MySQLWaitTimeoutEvent> events = new ArrayList<>();
+        List<DatabaseServer566701416Event> events = new ArrayList<>();
         for (Event event : hypersistenceOptimizer.getEvents()) {
-            if (event instanceof MySQLWaitTimeoutEvent) {
-                events.add((MySQLWaitTimeoutEvent) event);
+            if (event instanceof DatabaseServer566701416Event) {
+                events.add((DatabaseServer566701416Event) event);
             }
         }
         assertEquals(1, events.size());
 
-        MySQLWaitTimeoutEvent event = events.get(0);
-        LOGGER.info("The {} connection pool was detected: {}", event.getConnectionPool(), event.getDescription());
-        assertEquals("Agroal", event.getConnectionPool());
-        assertEquals(MySQLTestProfile.WAIT_TIMEOUT_SECONDS, event.getWaitTimeoutSeconds());
-        assertTrue(event.getDescription().contains("quarkus.datasource.jdbc.background-validation-interval"));
+        DatabaseServer566701416Event event = events.get(0);
     }
 }

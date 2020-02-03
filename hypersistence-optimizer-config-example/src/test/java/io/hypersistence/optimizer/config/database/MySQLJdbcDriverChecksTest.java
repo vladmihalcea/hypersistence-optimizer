@@ -1,9 +1,9 @@
 package io.hypersistence.optimizer.config.database;
 
 import io.hypersistence.optimizer.core.event.Event;
-import io.hypersistence.optimizer.jdbc.event.caching.JdbcStatementCacheSizeEvent;
-import io.hypersistence.optimizer.jdbc.event.session.MySQLUseLocalSessionStateEvent;
-import io.hypersistence.optimizer.jdbc.event.timeout.JdbcSocketTimeoutEvent;
+import io.hypersistence.optimizer.jdbc.event.caching.JdbcCache8914970511Event;
+import io.hypersistence.optimizer.jdbc.event.session.JdbcSession7697912433Event;
+import io.hypersistence.optimizer.jdbc.event.timeout.JdbcTimeout3359973659Event;
 import io.hypersistence.optimizer.util.AbstractHypersistenceOptimizerTest;
 import io.hypersistence.optimizer.util.providers.Database;
 
@@ -34,10 +34,9 @@ public class MySQLJdbcDriverChecksTest extends AbstractHypersistenceOptimizerTes
     @Override
     protected void verify() {
         for (Event event : hypersistenceOptimizer.getEvents()) {
-            LOGGER.info("{} - {}", event.getClass().getSimpleName(), event.getDescription());
         }
-        assertEventTriggered(1, JdbcStatementCacheSizeEvent.class);
-        assertEventTriggered(1, MySQLUseLocalSessionStateEvent.class);
-        assertEventTriggered(1, JdbcSocketTimeoutEvent.class);
+        assertEventTriggered(1, JdbcCache8914970511Event.class);
+        assertEventTriggered(1, JdbcSession7697912433Event.class);
+        assertEventTriggered(1, JdbcTimeout3359973659Event.class);
     }
 }

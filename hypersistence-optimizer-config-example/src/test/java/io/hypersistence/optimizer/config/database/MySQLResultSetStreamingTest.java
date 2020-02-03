@@ -1,6 +1,6 @@
 package io.hypersistence.optimizer.config.database;
 
-import io.hypersistence.optimizer.hibernate.event.query.MySQLResultSetStreamingEvent;
+import io.hypersistence.optimizer.hibernate.event.query.QueryEvent;
 import io.hypersistence.optimizer.util.AbstractHypersistenceOptimizerTest;
 import io.hypersistence.optimizer.util.providers.Database;
 import jakarta.persistence.Entity;
@@ -65,10 +65,8 @@ public class MySQLResultSetStreamingTest extends AbstractHypersistenceOptimizerT
             }
         });
 
-        assertEventTriggered(1, MySQLResultSetStreamingEvent.class);
-        MySQLResultSetStreamingEvent event = getTriggeredEvent(MySQLResultSetStreamingEvent.class);
-        LOGGER.info(event.getDescription());
-        assertTrue(event.getDescription().contains("[useCursorFetch]"));
+        assertEventTriggered(1, QueryEvent.class);
+        QueryEvent event = getTriggeredEvent(QueryEvent.class);
     }
 
     @Entity(name = "Post")

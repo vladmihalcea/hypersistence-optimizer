@@ -2,7 +2,7 @@ package io.hypersistence.optimizer.forum.pool;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.event.Event;
-import io.hypersistence.optimizer.jdbc.event.server.MySQLWaitTimeoutEvent;
+import io.hypersistence.optimizer.jdbc.event.server.DatabaseServer566701416Event;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * the pool retires or validates its idle connections before the MySQL server closes them.
  * <p>
  * Since the MySQL {@code wait_timeout} is lowered to 60 seconds for these connections, and none of the pools
- * is configured to check its idle connections that often, the {@link MySQLWaitTimeoutEvent} is triggered
+ * is configured to check its idle connections that often, the {@link DatabaseServer566701416Event} is triggered
  * for every connection pool that Spring Boot supports.
  * <p>
  * To run these tests, you need a MySQL database, like the one provided by the {@code docker-compose.yml} file
@@ -48,7 +48,7 @@ public abstract class AbstractMySQLConnectionPoolTest {
     private HypersistenceOptimizer hypersistenceOptimizer;
 
     /**
-     * Get the name of the connection pool, as reported by the {@link MySQLWaitTimeoutEvent}.
+     * Get the name of the connection pool, as reported by the {@link DatabaseServer566701416Event}.
      *
      * @return the connection pool name
      */
@@ -56,17 +56,14 @@ public abstract class AbstractMySQLConnectionPoolTest {
 
     @Test
     public void test() {
-        List<MySQLWaitTimeoutEvent> events = new ArrayList<>();
+        List<DatabaseServer566701416Event> events = new ArrayList<>();
         for (Event event : hypersistenceOptimizer.getEvents()) {
-            if (event instanceof MySQLWaitTimeoutEvent) {
-                events.add((MySQLWaitTimeoutEvent) event);
+            if (event instanceof DatabaseServer566701416Event) {
+                events.add((DatabaseServer566701416Event) event);
             }
         }
         assertEquals(1, events.size());
 
-        MySQLWaitTimeoutEvent event = events.get(0);
-        LOGGER.info("The {} connection pool was detected: {}", event.getConnectionPool(), event.getDescription());
-        assertEquals(connectionPool(), event.getConnectionPool());
-        assertEquals(WAIT_TIMEOUT_SECONDS, event.getWaitTimeoutSeconds());
+        DatabaseServer566701416Event event = events.get(0);
     }
 }
