@@ -50,16 +50,11 @@ public class SpringJpaTest {
     @Autowired
     private ForumService forumService;
 
+    @Autowired
     private HypersistenceOptimizer hypersistenceOptimizer;
 
     @Before
     public void init() {
-        hypersistenceOptimizer = new HypersistenceOptimizer(
-            new JpaConfig(
-                entityManager.getEntityManagerFactory()
-            )
-        );
-
         try {
             transactionTemplate.execute((TransactionCallback<Void>) transactionStatus -> {
                 Tag hibernate = new Tag();

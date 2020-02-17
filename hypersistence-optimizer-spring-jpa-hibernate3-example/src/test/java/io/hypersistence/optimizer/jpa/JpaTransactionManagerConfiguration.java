@@ -70,20 +70,20 @@ public class JpaTransactionManagerConfiguration {
 
     @Bean
     public EntityManagerFactory entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        localContainerEntityManagerFactoryBean.setPersistenceUnitName(getClass().getSimpleName());
-        localContainerEntityManagerFactoryBean.setPersistenceProvider(new HibernatePersistence());
-        localContainerEntityManagerFactoryBean.setDataSource(dataSource());
-        localContainerEntityManagerFactoryBean.setPackagesToScan(packagesToScan());
+        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        entityManagerFactoryBean.setPersistenceUnitName(persistenceUnitName());
+        entityManagerFactoryBean.setPersistenceProvider(new HibernatePersistence());
+        entityManagerFactoryBean.setDataSource(dataSource());
+        entityManagerFactoryBean.setPackagesToScan(packagesToScan());
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        localContainerEntityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
-        localContainerEntityManagerFactoryBean.setJpaProperties(additionalProperties());
+        entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
+        entityManagerFactoryBean.setJpaProperties(additionalProperties());
 
-        localContainerEntityManagerFactoryBean.afterPropertiesSet();
+        entityManagerFactoryBean.afterPropertiesSet();
 
         return HypersistenceHibernatePersistenceProvider.decorate(
-            localContainerEntityManagerFactoryBean.getNativeEntityManagerFactory()
+            entityManagerFactoryBean.getNativeEntityManagerFactory()
         );
     }
 
@@ -110,5 +110,9 @@ public class JpaTransactionManagerConfiguration {
         return new String[]{
             "io.hypersistence.optimizer.forum.domain"
         };
+    }
+
+    private String persistenceUnitName() {
+        return getClass().getSimpleName();
     }
 }

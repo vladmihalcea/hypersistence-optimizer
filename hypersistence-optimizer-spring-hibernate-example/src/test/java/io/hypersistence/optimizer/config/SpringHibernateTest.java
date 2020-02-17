@@ -1,7 +1,6 @@
 package io.hypersistence.optimizer.config;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
-import io.hypersistence.optimizer.core.config.HibernateConfig;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.forum.domain.Post;
 import io.hypersistence.optimizer.forum.domain.Tag;
@@ -52,16 +51,11 @@ public class SpringHibernateTest {
     @Autowired
     private ForumService forumService;
 
+    @Autowired
     private HypersistenceOptimizer hypersistenceOptimizer;
 
     @Before
     public void init() {
-        hypersistenceOptimizer = new HypersistenceOptimizer(
-            new HibernateConfig(
-                sessionFactory
-            )
-        );
-
         try {
             transactionTemplate.execute((TransactionCallback<Void>) transactionStatus -> {
                 Tag hibernate = new Tag();

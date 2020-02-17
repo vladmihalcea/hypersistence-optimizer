@@ -2,6 +2,8 @@ package io.hypersistence.optimizer.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import io.hypersistence.optimizer.HypersistenceOptimizer;
+import io.hypersistence.optimizer.core.config.HibernateConfig;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
@@ -71,6 +73,15 @@ public class HibernateTransactionManagerConfiguration {
         localSessionFactoryBean.setPackagesToScan(packagesToScan());
         localSessionFactoryBean.setHibernateProperties(additionalProperties());
         return localSessionFactoryBean;
+    }
+
+    @Bean
+    public HypersistenceOptimizer hypersistenceOptimizer(SessionFactory sessionFactory) {
+        return new HypersistenceOptimizer(
+            new HibernateConfig(
+                sessionFactory
+            )
+        );
     }
 
     @Bean
