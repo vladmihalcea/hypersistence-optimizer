@@ -6,16 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 
 @Configuration
 public class HypersistenceConfiguration {
 
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
-
     @Bean
-    public HypersistenceOptimizer hypersistenceOptimizer() {
+    public HypersistenceOptimizer hypersistenceOptimizer(
+            EntityManagerFactory entityManagerFactory) {
         return new HypersistenceOptimizer(
             new JpaConfig(
                 entityManagerFactory
