@@ -36,7 +36,7 @@ public abstract class AbstractGlassfishDataSourceJndiIntegrationTest {
     private UserTransaction userTransaction;
 
     @Before
-    public void init() throws Exception {
+    public void init() {
         hypersistenceOptimizer = new HypersistenceOptimizer(
             new JpaConfig(
                 getEntityManagerFactory()
