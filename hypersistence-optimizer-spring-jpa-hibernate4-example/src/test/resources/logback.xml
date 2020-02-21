@@ -20,11 +20,11 @@
         </encoder>
     </appender>
 
-    <logger name="io.hypersistence" level="debug"/>
+    <logger name="Hypersistence Optimizer" level="debug"/>
 
     <logger name="org.hibernate.type.descriptor.sql" level="debug"/>
 
-    <root>
+    <root level="info">
         <appender-ref ref="file"/>
         <appender-ref ref="console"/>
     </root>
