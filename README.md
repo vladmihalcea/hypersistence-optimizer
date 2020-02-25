@@ -4,9 +4,9 @@ Imagine having a tool that can automatically detect if you are using Java Persis
 
 No more performance issues, no more silly mistakes that can cost you a lot of time and money.
 
-Now, you have this tool. It's called Hypersistence Optimizer.
+[Hypersistence Optimizer](https://vladmihalcea.com/hypersistence-optimizer/) is that tool.
 
-## Introduction
+## Detecting performance issues before they hit production systems
 
 So, assuming you have an entity like the following one:
 
@@ -34,13 +34,7 @@ ERROR [main]: Hypersistence Optimizer - CRITICAL - EagerFetchingEvent - The [pos
 For more info about this event, check out this User Guide link - https://vladmihalcea.com/hypersistence-optimizer/docs/user-guide/#EagerFetchingEvent
 ````
 
-## Test case module
-
-If you want to play with it, you need to install the library, which is available [here](https://vladmihalcea.com/hypersistence-optimizer/).
-
-Afterward, if you want to play with it, you can use the `hypersistence-optimizer-test-case` module and run the [`EagerFetchingManyToOneTest`](https://github.com/vladmihalcea/hypersistence-optimizer/blob/404c6841ad8e0cb4c031107ed0b4356321661034/hypersistence-optimizer-test-case/src/test/java/io/hypersistence/optimizer/hibernate/mapping/association/fetching/eager/EagerFetchingManyToOneTest.java) test class, which uses the aforementioned `PostComment` entity mapping.
-
-### Issue management
+## Issue management
 
 If you'd like to create a new issue, be it a feature request or simply reporting a bug, then you can use [this GitHub repository issue list](https://github.com/vladmihalcea/hypersistence-optimizer/issues).
 
@@ -50,56 +44,74 @@ When you are done, please send your test case as a Pull Request, and I'll take c
 
 And, thank you for using this tool and for wanting to make it even more awesome.
 
-### Spring Boot
+## Full vs. trial version
 
-The `hypersistence-optimizer-spring-boot-example` shows how you can integrate the Hypersistence Optimizer with a Spring Boot application.
+By default, this repository is configured for the full version. 
 
-````java
-@Configuration
-public class HypersistenceConfiguration {
+If you want to use it with the trial version, you should use the `trial` branch instead:
 
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
+```bash
+> git checkout trial
+```
 
-    @Bean
-    public HypersistenceOptimizer hypersistenceOptimizer() {
-        return new HypersistenceOptimizer(
-            new JpaConfig(
-                entityManagerFactory
-            )
-        );
-    }
-}
-````
+## Module descriptions
 
-## Spring framework examples
+There are multiple modules in this repository:
 
-If you are using Spring, you can try the JPA or Hibernate modules.
+- `hypersistence-optimizer-test-case`
+- `hypersistence-optimizer-config-example`
+- `hypersistence-optimizer-spring-boot-example`
+- `hypersistence-optimizer-spring-jpa-example`
+- `hypersistence-optimizer-spring-jpa-hibernate4-example`
+- `hypersistence-optimizer-spring-jpa-hibernate3-example`
+- `hypersistence-optimizer-spring-hibernate-example`
+- `hypersistence-optimizer-spring-hibernate4-example`
+- `hypersistence-optimizer-spring-hibernate3-example`
+- `hypersistence-optimizer-glassfish-hibernate-example`
+- `hypersistence-optimizer-glassfish-hibernate4-example`
 
-### Spring and JPA example
+> You should check out the entire repository since the child modules use the versions defined in the parent module `pom.xml`.
 
-The `hypersistence-optimizer-spring-jpa-example` shows how you can integrate the Hypersistence Optimizer with a Spring JPA application.
+### `hypersistence-optimizer-test-case`
 
-````java
-new HypersistenceOptimizer(
-    new JpaConfig(
-        entityManager.getEntityManagerFactory()
-    )
-);
-````
+This module provides a test case template you could use to replicate a certain Hypersistence Optimizer issue.
 
-### Spring and Hibernate example
+### `hypersistence-optimizer-config-example`
 
-The `hypersistence-optimizer-spring-hibernate-example` shows how you can integrate the Hypersistence Optimizer with a Spring Hibernate application.
+This module shows various examples of how you can configure Hypersistence Optimizer.
 
-````java
-new HypersistenceOptimizer(
-    new HibernateConfig(
-        sessionFactory
-    )
-);
-````
+### `hypersistence-optimizer-spring-boot-example`
 
-It's as simple as that! 
+This module shows how you can use Hypersistence Optimizer with Spring Boot.
 
-Enjoy running your data access layer at warp speed now.
+### `hypersistence-optimizer-spring-jpa-example`
+
+This module shows how you can use Hypersistence Optimizer with Spring and the JPA `LocalEntityManagerFactoryBean`.
+
+### `hypersistence-optimizer-spring-jpa-hibernate4-example`
+
+This module shows how you can use Hypersistence Optimizer with Spring, the JPA `LocalEntityManagerFactoryBean`, and Hibernate 4.
+
+### `hypersistence-optimizer-spring-jpa-hibernate3-example`
+
+This module shows how you can use Hypersistence Optimizer with Spring, the JPA `LocalEntityManagerFactoryBean`, and Hibernate 3.
+
+### `hypersistence-optimizer-spring-hibernate-example`
+
+This module shows how you can use Hypersistence Optimizer with Spring and the Hibernate `LocalSessionFactoryBean`.
+
+### `hypersistence-optimizer-spring-hibernate4-example`
+
+This module shows how you can use Hypersistence Optimizer with Spring and the Hibernate 4 `LocalSessionFactoryBean`.
+
+### `hypersistence-optimizer-spring-hibernate3-example`
+
+This module shows how you can use Hypersistence Optimizer with Spring and the Hibernate 3 `LocalSessionFactoryBean`.
+
+### `hypersistence-optimizer-glassfish-hibernate-example`
+
+This module shows how you can use Hypersistence Optimizer with Java EE and GlassFish.
+
+### `hypersistence-optimizer-glassfish-hibernate4-example`
+
+This module shows how you can use Hypersistence Optimizer with Java EE, GlassFish, and Hibernate 4.
