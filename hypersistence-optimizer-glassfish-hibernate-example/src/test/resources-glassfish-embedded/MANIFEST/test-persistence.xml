@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
-        http://java.sun.com/xml/ns/persistence
-        http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+<persistence version="2.2"
+     xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+     http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 
-    <persistence-unit name="persistenceUnit" transaction-type="JTA">
+    <persistence-unit name="HypersistenceOptimizer" transaction-type="JTA">
+
+        <description>
+            Hypersistence Optimizer is a dynamic analyzing tool that can scan
+            your JPA and Hibernate application and provide you tips about the
+            changes you need to make to entity mappings, configurations, queries,
+            and Persistence Context actions to speed up your data access layer.
+        </description>
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <jta-data-source>java:global/jdbc/default</jta-data-source>
 
+        <class>io.hypersistence.optimizer.forum.domain.Post</class>
+        <class>io.hypersistence.optimizer.forum.domain.PostComment</class>
+        <class>io.hypersistence.optimizer.forum.domain.PostDetails</class>
+        <class>io.hypersistence.optimizer.forum.domain.Tag</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
-
+            <property
+                name="hibernate.transaction.jta.platform"
+                value="SunOne"
+            />
             <property name="hibernate.show_sql" value="true"/>
-
-            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
         </properties>
     </persistence-unit>
 </persistence>
