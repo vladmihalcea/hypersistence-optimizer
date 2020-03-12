@@ -23,8 +23,7 @@
         </property>
     </bean>
 
-    <bean id="originalSessionFactory"
-          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
     	<property name="dataSource" ref="dataSource" />
     	<property name="packagesToScan">
 		     <list>
@@ -39,13 +38,6 @@
         </property>
     </bean>
 
-    <bean id="sessionFactory"
-          class="io.hypersistence.optimizer.hibernate.decorator.HypersistenceHibernatePersistenceProvider"
-          factory-method="decorate"
-          primary="true">
-        <constructor-arg ref="originalSessionFactory"/>
-    </bean>
-
     <bean id="hypersistenceOptimizer" class="io.hypersistence.optimizer.HypersistenceOptimizer">
         <constructor-arg>
             <bean class="io.hypersistence.optimizer.core.config.HibernateConfig">
@@ -54,7 +46,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

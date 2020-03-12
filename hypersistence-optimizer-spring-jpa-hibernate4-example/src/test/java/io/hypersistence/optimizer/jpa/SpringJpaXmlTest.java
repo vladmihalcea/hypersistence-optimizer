@@ -34,9 +34,9 @@ import static org.junit.Assert.*;
  * @author Vlad Mihalcea
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = JpaTransactionManagerConfiguration.class)
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class SpringJpaTest {
+public class SpringJpaXmlTest {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 

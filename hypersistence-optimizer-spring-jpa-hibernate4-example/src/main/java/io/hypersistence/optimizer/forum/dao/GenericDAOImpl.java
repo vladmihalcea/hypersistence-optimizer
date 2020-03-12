@@ -42,6 +42,7 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
     @Override
     public T persist(T entity) {
         entityManager.persist(entity);
+        entityManager.flush();
         return entity;
     }
 

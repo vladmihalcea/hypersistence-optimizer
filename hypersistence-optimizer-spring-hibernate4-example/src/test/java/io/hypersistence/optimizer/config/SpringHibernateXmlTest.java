@@ -1,6 +1,7 @@
-package io.hypersistence.optimizer.jpa;
+package io.hypersistence.optimizer.config;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
+import io.hypersistence.optimizer.core.config.HibernateConfig;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.forum.domain.Post;
 import io.hypersistence.optimizer.forum.domain.Tag;
@@ -11,6 +12,7 @@ import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOnePa
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWithoutMapsIdEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
 import io.hypersistence.optimizer.hibernate.event.query.PaginationWithoutOrderByEvent;
+import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,8 +26,6 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -34,41 +34,45 @@ import static org.junit.Assert.*;
  * @author Vlad Mihalcea
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = JpaTransactionManagerConfiguration.class)
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class SpringJpaTest {
+public class SpringHibernateXmlTest {
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private TransactionTemplate transactionTemplate;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Autowired
     private ForumService forumService;
 
-    @Autowired
     private HypersistenceOptimizer hypersistenceOptimizer;
 
     @Before
     public void init() {
+        hypersistenceOptimizer = new HypersistenceOptimizer(
+            new HibernateConfig(
+                sessionFactory
+            )
+        );
+
         try {
             transactionTemplate.execute((TransactionCallback<Void>) transactionStatus -> {
                 Tag hibernate = new Tag();
                 hibernate.setName("hibernate");
-                entityManager.persist(hibernate);
+                sessionFactory.getCurrentSession().persist(hibernate);
 
                 Tag jpa = new Tag();
                 jpa.setName("jpa");
-                entityManager.persist(jpa);
+                sessionFactory.getCurrentSession().persist(jpa);
                 return null;
             });
         } catch (TransactionException e) {
             LOGGER.error("Failure", e);
         }
-
     }
 
     @Test

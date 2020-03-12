@@ -25,7 +25,7 @@ import java.util.Properties;
  * @author Vlad Mihalcea
  */
 @Configuration
-@PropertySource({"/META-INF/jdbc-hsqldb.properties"})
+@PropertySource({"/META-INF/application.properties"})
 @ComponentScan(basePackages = "io.hypersistence.optimizer.forum")
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
@@ -71,7 +71,7 @@ public class JpaTransactionManagerConfiguration {
     }
 
     @Bean
-    public EntityManagerFactory entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setPersistenceUnitName(persistenceUnitName());
         entityManagerFactoryBean.setPersistenceProvider(new HibernatePersistenceProvider());
@@ -82,8 +82,12 @@ public class JpaTransactionManagerConfiguration {
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
         entityManagerFactoryBean.setJpaProperties(additionalProperties());
 
-        entityManagerFactoryBean.afterPropertiesSet();
+        return entityManagerFactoryBean;
+    }
 
+    @Bean
+    @Primary
+    public EntityManagerFactory entityManagerFactory(LocalContainerEntityManagerFactoryBean entityManagerFactoryBean) {
         return HypersistenceHibernatePersistenceProvider.decorate(
             entityManagerFactoryBean.getNativeEntityManagerFactory()
         );

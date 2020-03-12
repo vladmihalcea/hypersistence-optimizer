@@ -20,7 +20,7 @@ import java.util.Properties;
  * @author Vlad Mihalcea
  */
 @Configuration
-@PropertySource({"/META-INF/jdbc-hsqldb.properties"})
+@PropertySource({"/META-INF/application.properties"})
 @ComponentScan(basePackages = "io.hypersistence.optimizer.forum")
 @EnableTransactionManagement
 @EnableAspectJAutoProxy

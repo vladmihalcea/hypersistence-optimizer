@@ -23,9 +23,6 @@ public class ForumServiceImpl implements ForumService {
     @Autowired
     private TagDAO tagDAO;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Override
     @Transactional
     public Post newPost(String title, String... tags) {

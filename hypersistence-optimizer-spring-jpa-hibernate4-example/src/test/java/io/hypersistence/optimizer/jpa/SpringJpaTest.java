@@ -1,7 +1,6 @@
 package io.hypersistence.optimizer.jpa;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
-import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.forum.domain.Post;
 import io.hypersistence.optimizer.forum.domain.Tag;

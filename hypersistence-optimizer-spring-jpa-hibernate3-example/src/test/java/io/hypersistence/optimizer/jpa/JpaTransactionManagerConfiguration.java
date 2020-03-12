@@ -2,6 +2,8 @@ package io.hypersistence.optimizer.jpa;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import io.hypersistence.optimizer.HypersistenceOptimizer;
+import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.hibernate.decorator.HypersistenceHibernatePersistenceProvider;
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +25,7 @@ import java.util.Properties;
  * @author Vlad Mihalcea
  */
 @Configuration
-@PropertySource({"/META-INF/jdbc-hsqldb.properties"})
+@PropertySource({"/META-INF/application.properties"})
 @ComponentScan(basePackages = "io.hypersistence.optimizer.forum")
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
@@ -84,6 +86,16 @@ public class JpaTransactionManagerConfiguration {
 
         return HypersistenceHibernatePersistenceProvider.decorate(
             entityManagerFactoryBean.getNativeEntityManagerFactory()
+        );
+    }
+
+    @Bean
+    public HypersistenceOptimizer hypersistenceOptimizer(
+        EntityManagerFactory entityManagerFactory) {
+        return new HypersistenceOptimizer(
+            new JpaConfig(
+                entityManagerFactory
+            )
         );
     }
 
