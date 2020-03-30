@@ -1,60 +1,94 @@
 # Hypersistence Optimizer
 
-Imagine having a tool that can automatically detect if you are using Java Persistence and Hibernate properly.
+[Hypersistence Optimizer](https://vladmihalcea.com/hypersistence-optimizer/) is a dynamic analyzing tool that can scan your JPA and Hibernate application and provide you tips about the changes you need to make to entity mappings, configurations, queries, and Persistence Context actions to speed up your data access layer.
 
-No more performance issues, no more silly mistakes that can cost you a lot of time and money.
+Once you downloaded the [Full or Trial version](https://vladmihalcea.com/hypersistence-optimizer/), you need to follow a series of steps in order to install Hypersistence Optimizer.
 
-[Hypersistence Optimizer](https://vladmihalcea.com/hypersistence-optimizer/) is that tool.
+## Unzipping the package
 
-## Detecting performance issues before they hit production systems
-
-So, assuming you have an entity like the following one:
-
-```java
-@Entity(name = "PostComment")
-@Table(name = "post_comment")
-public class PostComment {
-
-    @Id
-    private Long id;
-
-    @ManyToOne
-    private Post post;
-
-    private String review;
-    
-}
-```
-
-Hypersistence Optimizer will log the following error message when scanning this entity:
+The first thing you need to do is to unzip the package you have just downloaded.
 
 ```bash
-ERROR [main]: Hypersistence Optimizer - CRITICAL - EagerFetchingEvent - The [post] attribute in the [io.hypersistence.optimizer.config.mapping.association.fetching.eager.EagerFetchingManyToOneTest$PostComment] entity uses eager fetching. Consider using a lazy fetching which, not only that is more efficient, but it is way more flexible when it comes to fetching data. 
+> unzip hypersistence-optimizer-2.0.2-pack.zip
+```
 
-For more info about this event, check out this User Guide link - https://vladmihalcea.com/hypersistence-optimizer/docs/user-guide/#EagerFetchingEvent
-````
+After unzipping the project package, you will get the following file structure:
 
-## Issue management
+```bash
+creating: hypersistence-optimizer-2.0.2/
+   creating: hypersistence-optimizer-2.0.2/lib/
+  inflating: hypersistence-optimizer-2.0.2/lib/hypersistence-optimizer-2.0.2-javadoc.jar
+  inflating: hypersistence-optimizer-2.0.2/lib/hypersistence-optimizer-2.0.2-sources.jar
+  inflating: hypersistence-optimizer-2.0.2/lib/hypersistence-optimizer-2.0.2.jar
+   creating: hypersistence-optimizer-2.0.2/configs/
+   creating: hypersistence-optimizer-2.0.2/configs/META-INF/
+   creating: hypersistence-optimizer-2.0.2/configs/META-INF/services/
+  inflating: hypersistence-optimizer-2.0.2/configs/META-INF/services/org.hibernate.boot.spi.SessionFactoryBuilderFactory
+   creating: hypersistence-optimizer-2.0.2/docs/
+   creating: hypersistence-optimizer-2.0.2/docs/html/
+   creating: hypersistence-optimizer-2.0.2/docs/pdf/
+  inflating: hypersistence-optimizer-2.0.2/docs/html/asciidoctor.css
+  inflating: hypersistence-optimizer-2.0.2/docs/html/coderay-asciidoctor.css
+  inflating: hypersistence-optimizer-2.0.2/docs/pdf/InstallationGuide.pdf
+  inflating: hypersistence-optimizer-2.0.2/docs/html/InstallationGuide.html
+  inflating: hypersistence-optimizer-2.0.2/docs/html/UserGuide.html
+  inflating: hypersistence-optimizer-2.0.2/docs/pdf/UserGuide.pdf
+  inflating: hypersistence-optimizer-2.0.2/changelog.txt
+  inflating: hypersistence-optimizer-2.0.2/LICENSE.txt
+  inflating: hypersistence-optimizer-2.0.2/maven-install.bat
+  inflating: hypersistence-optimizer-2.0.2/maven-install.sh
+  inflating: hypersistence-optimizer-2.0.2/README.txt
+```
 
-If you'd like to create a new issue, be it a feature request or simply reporting a bug, then you can use [this GitHub repository issue list](https://github.com/vladmihalcea/hypersistence-optimizer/issues).
+The package contains the following resources:
 
-For bugs, please provide a replicating test case. You can use the `EagerFetchingManyToOneTest` as a template to create your new test case scenario.
+* the `lib` folder contains the main `jar` file, as well as the JavaDoc and the Java sources
+* the `configs` folder contains a Java service loader configuration file that is going to be explained in the next steps
+* the `docs` folder contains the Installation and User Guides
+* the `changelog` file contains the release notes for all product versions
+* the `LICENSE` file contains the project license info
+* the `maven-install` scripts allow you to install the Java artifacts in your local Maven repository
+* the `README` file contains a short description of the project
 
-When you are done, please send your test case as a Pull Request, and I'll take care of it.
+## Installation Guide
 
-And, thank you for using this tool and for wanting to make it even more awesome.
+In order to install Hypersistence Optimizer, you need to read the Installation Guide, which is available both in
+HTML and PDF formats in the unzipped package:
 
-## Full vs. trial version
+* `hypersistence-optimizer-2.0.2/docs/pdf/InstallationGuide.pdf`
+* `hypersistence-optimizer-2.0.2/docs/html/InstallationGuide.html`
 
-By default, this repository is configured for the full version. 
+> You can also read the [Installation Guide online](https://vladmihalcea.com/hypersistence-optimizer/docs/installation-guide/) if you want.
 
-If you want to use it with the trial version, you should use the `trial` branch instead:
+## User Guide
+
+After you are done with the Installation Guide, you should read the User Guide too, as it shows how you can configure
+Hypersistence Optimizer so that you can get the most out of it.
+
+You can find the User Guide in the docs folder as well:
+
+* `hypersistence-optimizer-2.0.2/docs/html/UserGuide.html`
+* `hypersistence-optimizer-2.0.2/docs/pdf/UserGuide.pdf`
+
+> You can also read the [User Guide online](https://vladmihalcea.com/hypersistence-optimizer/docs/user-guide/) if you want.
+
+## GitHub repository
+
+This repository contains examples for Spring Boot, Spring Framework, Java EE that can help you set up the tool.
+
+### Full vs. Trial version
+
+By default, this repository is configured for the Full version. 
+
+If you want to use it with the Trial version, you should use the `trial` branch instead:
 
 ```bash
 > git checkout trial
 ```
 
-## Module descriptions
+> You should check out the entire repository since the child modules use the versions defined in the parent module `pom.xml`.
+
+### Module descriptions
 
 There are multiple modules in this repository:
 
@@ -69,8 +103,6 @@ There are multiple modules in this repository:
 - `hypersistence-optimizer-spring-hibernate3-example`
 - `hypersistence-optimizer-glassfish-hibernate-example`
 - `hypersistence-optimizer-glassfish-hibernate4-example`
-
-> You should check out the entire repository since the child modules use the versions defined in the parent module `pom.xml`.
 
 ### `hypersistence-optimizer-test-case`
 
@@ -115,3 +147,13 @@ This module shows how you can use Hypersistence Optimizer with Java EE and Glass
 ### `hypersistence-optimizer-glassfish-hibernate4-example`
 
 This module shows how you can use Hypersistence Optimizer with Java EE, GlassFish, and Hibernate 4.
+
+## Issue management
+
+If you'd like to create a new issue, be it a feature request or simply reporting a bug, then you can use [this GitHub repository issue list](https://github.com/vladmihalcea/hypersistence-optimizer/issues).
+
+For bugs, it would be awesome if you provided a replicating test case as well. You can use the `EagerFetchingManyToOneTest` as a template to create your new test case scenario.
+
+When you are done, please send your test case as a Pull Request, and I'll take care of it.
+
+Thank you for using Hypersistence Optimizer and stay tuned for more!
