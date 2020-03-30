@@ -5,15 +5,15 @@ import org.hibernate.Session;
 /**
  * @author Vlad Mihalcea
  */
-public abstract class HibernateTransactionFunction<T> {
+public interface HibernateTransactionFunction<T> {
 
-    public abstract T apply(Session t);
+    T apply(Session t);
 
-    public void beforeTransactionCompletion() {
+    default void beforeTransactionCompletion() {
 
     }
 
-    public void afterTransactionCompletion() {
+    default void afterTransactionCompletion() {
 
     }
 }

@@ -5,15 +5,15 @@ import javax.persistence.EntityManager;
 /**
  * @author Vlad Mihalcea
  */
-public abstract class JPATransactionVoidFunction {
+public interface JPATransactionVoidFunction {
 
-    public abstract void accept(EntityManager t);
+    void accept(EntityManager t);
 
-    public void beforeTransactionCompletion() {
+    default void beforeTransactionCompletion() {
 
     }
 
-    public void afterTransactionCompletion() {
+    default void afterTransactionCompletion() {
 
     }
 }

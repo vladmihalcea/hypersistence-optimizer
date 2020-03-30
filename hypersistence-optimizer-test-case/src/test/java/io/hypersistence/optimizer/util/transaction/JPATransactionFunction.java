@@ -5,15 +5,15 @@ import javax.persistence.EntityManager;
 /**
  * @author Vlad Mihalcea
  */
-public abstract class JPATransactionFunction<T> {
+public interface JPATransactionFunction<T> {
 
-    public abstract T apply(EntityManager entityManager);
+    T apply(EntityManager entityManager);
 
-    public void beforeTransactionCompletion() {
+    default void beforeTransactionCompletion() {
 
     }
 
-    public void afterTransactionCompletion() {
+    default void afterTransactionCompletion() {
 
     }
 }

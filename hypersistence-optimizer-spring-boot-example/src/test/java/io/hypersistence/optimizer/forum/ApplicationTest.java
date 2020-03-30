@@ -31,6 +31,7 @@ import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOnePa
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWithoutMapsIdEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
 import io.hypersistence.optimizer.hibernate.event.query.PaginationWithoutOrderByEvent;
+import io.hypersistence.optimizer.hibernate.event.session.SessionTimeoutEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,12 +44,12 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.junit.Assert.*;
 
@@ -70,6 +71,12 @@ public class ApplicationTest {
     @Autowired
     private ForumService forumService;
 
+    protected final ExecutorService executorService = Executors.newSingleThreadExecutor(r -> {
+        Thread bob = new Thread(r);
+        bob.setName("Bob");
+        return bob;
+    });
+
     @Before
     public void init() {
         try {
@@ -89,7 +96,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void test() {
+    public void test() throws ExecutionException, InterruptedException {
         assertEventTriggered(2, EagerFetchingEvent.class);
         assertEventTriggered(1, ManyToManyListEvent.class);
         assertEventTriggered(1, OneToOneParentSideEvent.class);
@@ -99,18 +106,37 @@ public class ApplicationTest {
         assertEventTriggered(1, QueryPaginationCollectionFetchingEvent.class);
         assertEventTriggered(1, QueryInClauseParameterPaddingEvent.class);
 
-        Post newPost = forumService.newPost("High-Performance Java Persistence", Arrays.asList("hibernate", "jpa"));
-        assertNotNull(newPost.getId());
+        Post newPost = null;
+
+        for (int i = 0; i < 10; i++) {
+            newPost = forumService.newPost("High-Performance Java Persistence", Arrays.asList("hibernate", "jpa"));
+            assertNotNull(newPost.getId());
+        }
 
         List<Post> posts = forumService.findAllByTitle("High-Performance Java Persistence");
-        assertEquals(1, posts.size());
+        assertEquals(10, posts.size());
 
         Post post = forumService.findById(newPost.getId());
         assertEquals("High-Performance Java Persistence", post.getTitle());
 
         assertEventTriggered(0, PaginationWithoutOrderByEvent.class);
-        assertEquals(1, forumService.findAll(5).size());
+        assertEquals(5, forumService.findAll(5).size());
         assertEventTriggered(1, PaginationWithoutOrderByEvent.class);
+
+        hypersistenceOptimizer.getEvents().clear();
+
+        executorService.submit(() -> transactionTemplate.execute(
+            transactionStatus -> {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    Thread.interrupted();
+                }
+                return null;
+            }
+        )).get();
+
+        assertEventTriggered(1, SessionTimeoutEvent.class);
     }
 
     protected void assertEventTriggered(int expectedCount, Class<? extends Event> eventClass) {

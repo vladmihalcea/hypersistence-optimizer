@@ -10,6 +10,7 @@ import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOnePa
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWithoutMapsIdEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
 import io.hypersistence.optimizer.hibernate.event.query.PaginationWithoutOrderByEvent;
+import io.hypersistence.optimizer.hibernate.event.session.SessionTimeoutEvent;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,6 +57,8 @@ public abstract class AbstractGlassfishDataSourceJndiIntegrationTest {
             getEntityManager().persist(post);
         });
 
+        hypersistenceOptimizer.getEvents().clear();
+
         doInTransaction(() -> {
             assertEventTriggered(0, PaginationWithoutOrderByEvent.class);
 
@@ -68,7 +71,15 @@ public abstract class AbstractGlassfishDataSourceJndiIntegrationTest {
             assertEquals(1, posts.size());
 
             assertEventTriggered(1, PaginationWithoutOrderByEvent.class);
+
+            try {
+                Thread.sleep(25);
+            } catch (InterruptedException e) {
+                Thread.interrupted();
+            }
         });
+
+        assertEventTriggered(1, SessionTimeoutEvent.class);
     }
 
     private void doInTransaction(VoidCallable callable) {

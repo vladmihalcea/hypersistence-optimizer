@@ -5,11 +5,11 @@ import java.util.concurrent.Callable;
 /**
  * @author Vlad Mihalcea
  */
-public abstract class VoidCallable implements Callable<Void> {
+public interface VoidCallable extends Callable<Void> {
 
-    public abstract void execute();
+    void execute();
 
-    public Void call() throws Exception {
+    default Void call() throws Exception {
         execute();
         return null;
     }

@@ -13,12 +13,10 @@
 
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
-
+            <property name="hibernate.transaction.jta.platform" value="SunOne"/>
             <property name="hibernate.show_sql" value="true"/>
 
-            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hypersistence.session.timeout_millis" value="25"/>
         </properties>
     </persistence-unit>
 </persistence>
