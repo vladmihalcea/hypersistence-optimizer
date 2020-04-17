@@ -1,0 +1,11 @@
+@(implicit request: Http.Request)
+index.scala.html
+@main("Hypersistence Optimizer") {
+
+    <ul id="posts"></ul>
+
+    <form method="POST" action="@routes.PostController.addPost()">
+        <input type="text" name="title"/>
+        <button>Save Post</button>
+    </form>
+}
