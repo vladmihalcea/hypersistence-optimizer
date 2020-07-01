@@ -1,6 +1,6 @@
 package io.hypersistence.optimizer.util.providers;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import com.mysql.cj.jdbc.MysqlDataSource;
 
 import javax.sql.DataSource;
 import java.util.Properties;
