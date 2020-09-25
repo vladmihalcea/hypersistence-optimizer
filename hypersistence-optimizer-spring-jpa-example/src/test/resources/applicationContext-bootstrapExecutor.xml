@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:annotation-config/>
+
+    <context:component-scan base-package="io.hypersistence.optimizer"/>
+
+    <context:property-placeholder location="/META-INF/application.properties"/>
+
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <property name="dataSourceClassName" value="${jdbc.dataSourceClassName}" />
+        <property name="maximumPoolSize" value="3" />
+        <property name="dataSourceProperties">
+            <props>
+                <prop key="url">${jdbc.url}</prop>
+                <prop key="user">${jdbc.username}</prop>
+                <prop key="password">${jdbc.password}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="jpaVendor" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    	<property name="dataSource" ref="dataSource" />
+    	<property name="packagesToScan">
+		     <list>
+		       <value>${packages.to.scan}</value>
+		     </list>
+	    </property>
+        <property name="jpaVendorAdapter" ref="jpaVendor"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+            </props>
+        </property>
+        <property name="bootstrapExecutor">
+            <bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+        </property>
+    </bean>
+
+    <bean id="hypersistenceOptimizer" class="io.hypersistence.optimizer.HypersistenceOptimizer">
+        <constructor-arg>
+            <bean class="io.hypersistence.optimizer.core.config.JpaConfig">
+                <constructor-arg ref="entityManagerFactory"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <constructor-arg name="transactionManager" ref="transactionManager"/>
+    </bean>
+
+</beans>
