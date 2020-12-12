@@ -17,7 +17,6 @@
 package io.hypersistence.optimizer.forum;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
-import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.forum.domain.Post;
 import io.hypersistence.optimizer.forum.domain.Tag;
@@ -32,29 +31,27 @@ import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWi
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
 import io.hypersistence.optimizer.hibernate.event.query.PaginationWithoutOrderByEvent;
 import io.hypersistence.optimizer.hibernate.event.session.SessionTimeoutEvent;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
 public class ApplicationTest {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
@@ -77,7 +74,7 @@ public class ApplicationTest {
         return bob;
     });
 
-    @Before
+    @BeforeEach
     public void init() {
         try {
             transactionTemplate.execute((TransactionCallback<Void>) transactionStatus -> {
