@@ -148,6 +148,28 @@ This module shows how you can use Hypersistence Optimizer with Java EE and Glass
 
 This module shows how you can use Hypersistence Optimizer with Java EE, GlassFish, and Hibernate 4.
 
+## Setup instructions
+
+All modules work with Java 8 or newer versions, and the project is set up using Maven.
+
+While most tests use the in-memory HSQLDB, some tests use MySQL, and, for this reason, you need to configure
+the MySQL database connection properties in the `MySQLDataSourceProvider` class.
+
+By default, the project expects that you are using the following MySQL database connection properties:
+
+* Database: high_performance_java_persistence
+* Port: 3306
+* UserName: mysql
+* Password: admin
+ 
+You can also use **docker-compose** to run MySQL server using the command: 
+
+    docker-compose up
+    
+To run the tests, you can use:
+
+    mvn clean test
+
 ## Issue management
 
 If you'd like to create a new issue, be it a feature request or simply reporting a bug, then you can use [this GitHub repository issue list](https://github.com/vladmihalcea/hypersistence-optimizer/issues).
