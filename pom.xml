@@ -50,6 +50,8 @@
 		<module>hypersistence-optimizer-spring-boot-example</module>
 		<module>hypersistence-optimizer-glassfish-hibernate-example</module>
 		<module>hypersistence-optimizer-glassfish-hibernate4-example</module>
+        <module>hypersistence-optimizer-quarkus-spring-example</module>
+        <module>hypersistence-optimizer-quarkus-example</module>
     </modules>
 
     <dependencies>
@@ -196,7 +198,7 @@
         <mockito.version>1.10.19</mockito.version>
         <junit.version>4.13.1</junit.version>
         <hsqldb.version>2.5.1</hsqldb.version>
-        <mysql.version>8.0.16</mysql.version>
+        <mysql.version>8.0.19</mysql.version>
 
         <datasource-proxy.version>1.3.3</datasource-proxy.version>
 

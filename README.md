@@ -103,6 +103,8 @@ There are multiple modules in this repository:
 - `hypersistence-optimizer-spring-hibernate3-example`
 - `hypersistence-optimizer-glassfish-hibernate-example`
 - `hypersistence-optimizer-glassfish-hibernate4-example`
+- `hypersistence-optimizer-quarkus-spring-extension-example`
+- `hypersistence-optimizer-quarkus-example`
 
 ### `hypersistence-optimizer-test-case`
 
@@ -147,6 +149,14 @@ This module shows how you can use Hypersistence Optimizer with Java EE and Glass
 ### `hypersistence-optimizer-glassfish-hibernate4-example`
 
 This module shows how you can use Hypersistence Optimizer with Java EE, GlassFish, and Hibernate 4.
+
+### `hypersistence-optimizer-quarkus-spring-extension-example`
+
+This module shows how you can use Hypersistence Optimizer with Quarkus's Spring based extensions.
+
+### `hypersistence-optimizer-quarkus-example`
+
+This module shows how you can use Hypersistence Optimizer with Quarkus (Hibernate Panache ORM).
 
 ## Setup instructions
 
