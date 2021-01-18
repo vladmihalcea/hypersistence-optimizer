@@ -31,7 +31,8 @@ import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWi
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
 import io.hypersistence.optimizer.hibernate.event.query.PaginationWithoutOrderByEvent;
 import io.hypersistence.optimizer.hibernate.event.session.SessionTimeoutEvent;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 @SpringBootTest
 public class ApplicationTest {
@@ -74,7 +76,7 @@ public class ApplicationTest {
         return bob;
     });
 
-    @BeforeEach
+    @Before
     public void init() {
         try {
             transactionTemplate.execute((TransactionCallback<Void>) transactionStatus -> {
@@ -107,7 +109,7 @@ public class ApplicationTest {
 
         for (int i = 0; i < 10; i++) {
             newPost = forumService.newPost("High-Performance Java Persistence", Arrays.asList("hibernate", "jpa"));
-            assertNotNull(newPost.getId());
+            Assert.assertNotNull(newPost.getId());
         }
 
         List<Post> posts = forumService.findAllByTitle("High-Performance Java Persistence");
