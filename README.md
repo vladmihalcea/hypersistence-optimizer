@@ -9,41 +9,36 @@ Once you downloaded the [Full or Trial version](https://vladmihalcea.com/hypersi
 The first thing you need to do is to unzip the package you have just downloaded.
 
 ```bash
-> unzip hypersistence-optimizer-2.2.0-pack.zip
+> unzip hypersistence-optimizer-2.3.0-pack.zip
 ```
 
 After unzipping the project package, you will get the following file structure:
 
 ```bash
-creating: hypersistence-optimizer-2.2.0/
-   creating: hypersistence-optimizer-2.2.0/lib/
-  inflating: hypersistence-optimizer-2.2.0/lib/hypersistence-optimizer-2.2.0-javadoc.jar
-  inflating: hypersistence-optimizer-2.2.0/lib/hypersistence-optimizer-2.2.0-sources.jar
-  inflating: hypersistence-optimizer-2.2.0/lib/hypersistence-optimizer-2.2.0.jar
-   creating: hypersistence-optimizer-2.2.0/configs/
-   creating: hypersistence-optimizer-2.2.0/configs/META-INF/
-   creating: hypersistence-optimizer-2.2.0/configs/META-INF/services/
-  inflating: hypersistence-optimizer-2.2.0/configs/META-INF/services/org.hibernate.boot.spi.SessionFactoryBuilderFactory
-   creating: hypersistence-optimizer-2.2.0/docs/
-   creating: hypersistence-optimizer-2.2.0/docs/html/
-   creating: hypersistence-optimizer-2.2.0/docs/pdf/
-  inflating: hypersistence-optimizer-2.2.0/docs/html/asciidoctor.css
-  inflating: hypersistence-optimizer-2.2.0/docs/html/coderay-asciidoctor.css
-  inflating: hypersistence-optimizer-2.2.0/docs/pdf/InstallationGuide.pdf
-  inflating: hypersistence-optimizer-2.2.0/docs/html/InstallationGuide.html
-  inflating: hypersistence-optimizer-2.2.0/docs/html/UserGuide.html
-  inflating: hypersistence-optimizer-2.2.0/docs/pdf/UserGuide.pdf
-  inflating: hypersistence-optimizer-2.2.0/changelog.txt
-  inflating: hypersistence-optimizer-2.2.0/LICENSE.txt
-  inflating: hypersistence-optimizer-2.2.0/maven-install.bat
-  inflating: hypersistence-optimizer-2.2.0/maven-install.sh
-  inflating: hypersistence-optimizer-2.2.0/README.txt
+creating: hypersistence-optimizer-2.3.0/
+   creating: hypersistence-optimizer-2.3.0/lib/
+  inflating: hypersistence-optimizer-2.3.0/lib/hypersistence-optimizer-2.3.0-javadoc.jar
+  inflating: hypersistence-optimizer-2.3.0/lib/hypersistence-optimizer-2.3.0-sources.jar
+  inflating: hypersistence-optimizer-2.3.0/lib/hypersistence-optimizer-2.3.0.jar
+   creating: hypersistence-optimizer-2.3.0/docs/
+   creating: hypersistence-optimizer-2.3.0/docs/html/
+   creating: hypersistence-optimizer-2.3.0/docs/pdf/
+  inflating: hypersistence-optimizer-2.3.0/docs/html/asciidoctor.css
+  inflating: hypersistence-optimizer-2.3.0/docs/html/coderay-asciidoctor.css
+  inflating: hypersistence-optimizer-2.3.0/docs/pdf/InstallationGuide.pdf
+  inflating: hypersistence-optimizer-2.3.0/docs/html/InstallationGuide.html
+  inflating: hypersistence-optimizer-2.3.0/docs/html/UserGuide.html
+  inflating: hypersistence-optimizer-2.3.0/docs/pdf/UserGuide.pdf
+  inflating: hypersistence-optimizer-2.3.0/changelog.txt
+  inflating: hypersistence-optimizer-2.3.0/LICENSE.txt
+  inflating: hypersistence-optimizer-2.3.0/maven-install.bat
+  inflating: hypersistence-optimizer-2.3.0/maven-install.sh
+  inflating: hypersistence-optimizer-2.3.0/README.txt
 ```
 
 The package contains the following resources:
 
 * the `lib` folder contains the main `jar` file, as well as the JavaDoc and the Java sources
-* the `configs` folder contains a Java service loader configuration file that is going to be explained in the next steps
 * the `docs` folder contains the Installation and User Guides
 * the `changelog` file contains the release notes for all product versions
 * the `LICENSE` file contains the project license info
@@ -55,8 +50,8 @@ The package contains the following resources:
 In order to install Hypersistence Optimizer, you need to read the Installation Guide, which is available both in
 HTML and PDF formats in the unzipped package:
 
-* `hypersistence-optimizer-2.2.0/docs/pdf/InstallationGuide.pdf`
-* `hypersistence-optimizer-2.2.0/docs/html/InstallationGuide.html`
+* `hypersistence-optimizer-2.3.0/docs/pdf/InstallationGuide.pdf`
+* `hypersistence-optimizer-2.3.0/docs/html/InstallationGuide.html`
 
 > You can also read the [Installation Guide online](https://vladmihalcea.com/hypersistence-optimizer/docs/installation-guide/) if you want.
 
@@ -67,8 +62,8 @@ Hypersistence Optimizer so that you can get the most out of it.
 
 You can find the User Guide in the docs folder as well:
 
-* `hypersistence-optimizer-2.2.0/docs/html/UserGuide.html`
-* `hypersistence-optimizer-2.2.0/docs/pdf/UserGuide.pdf`
+* `hypersistence-optimizer-2.3.0/docs/html/UserGuide.html`
+* `hypersistence-optimizer-2.3.0/docs/pdf/UserGuide.pdf`
 
 > You can also read the [User Guide online](https://vladmihalcea.com/hypersistence-optimizer/docs/user-guide/) if you want.
 
