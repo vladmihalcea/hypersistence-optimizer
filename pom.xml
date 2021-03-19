@@ -184,7 +184,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <hypersistence-optimizer.version>2.3.0</hypersistence-optimizer.version>
+        <hypersistence-optimizer.version>2.3.1</hypersistence-optimizer.version>
 
         <hibernate.version>5.4.11.Final</hibernate.version>
 
