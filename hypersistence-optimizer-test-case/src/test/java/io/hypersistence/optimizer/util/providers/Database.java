@@ -7,7 +7,8 @@ import io.hypersistence.optimizer.util.ReflectionUtils;
  */
 public enum Database {
     HSQLDB(HSQLDBDataSourceProvider.class),
-    MYSQL(MySQLDataSourceProvider.class);
+    MYSQL(MySQLDataSourceProvider.class),
+    POSTGRESQL(PostgreSQLDataSourceProvider.class);
 
     private Class<? extends DataSourceProvider> dataSourceProviderClass;
 

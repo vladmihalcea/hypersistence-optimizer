@@ -6,6 +6,7 @@ import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
+import io.hypersistence.optimizer.util.providers.Database;
 import org.junit.Test;
 
 import javax.persistence.Entity;
@@ -26,6 +27,11 @@ public class ListEventHandlerTest extends AbstractTest {
             Post.class,
             PostComment.class
         };
+    }
+
+    @Override
+    protected Database database() {
+        return Database.POSTGRESQL;
     }
 
     private ListEventHandler listEventHandler = new ListEventHandler();
