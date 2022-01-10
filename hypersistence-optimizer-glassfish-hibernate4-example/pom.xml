@@ -81,6 +81,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.12</version>
                 <configuration>
+                    <jvm>${env.JAVA_HOME_8}/bin/java</jvm>
                     <systemPropertyVariables>
                         <java.util.logging.config.file>
                             ${project.build.testOutputDirectory}/logging.properties

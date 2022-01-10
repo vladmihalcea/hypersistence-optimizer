@@ -1,5 +1,5 @@
 @echo off
 
-mvn clean install
+mvn clean install %*
 
 goto:eof
