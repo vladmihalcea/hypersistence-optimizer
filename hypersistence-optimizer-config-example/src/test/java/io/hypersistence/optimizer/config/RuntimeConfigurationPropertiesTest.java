@@ -2,18 +2,17 @@ package io.hypersistence.optimizer.config;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.Config;
-import io.hypersistence.optimizer.core.config.JpaConfig;
+import io.hypersistence.optimizer.core.config.HibernateConfig;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
-import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
+import io.hypersistence.optimizer.hibernate.decorator.HypersistenceHibernatePersistenceProvider;
 import io.hypersistence.optimizer.hibernate.event.session.SessionTimeoutEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
-import io.hypersistence.optimizer.util.transaction.JPATransactionVoidFunction;
+import org.hibernate.SessionFactory;
 import org.junit.Test;
 
-import javax.persistence.*;
-
 import java.util.Collections;
+import java.util.Properties;
 
 import static org.junit.Assert.assertSame;
 
@@ -31,9 +30,21 @@ public class RuntimeConfigurationPropertiesTest extends AbstractTest {
     private ListEventHandler listEventHandler = new ListEventHandler();
 
     @Override
+    protected void additionalProperties(Properties properties) {
+        properties.remove("hibernate.hbm2ddl.auto");
+    }
+
+    @Override
+    protected SessionFactory newSessionFactory() {
+        return HypersistenceHibernatePersistenceProvider.decorate(
+            super.newSessionFactory()
+        );
+    }
+
+    @Override
     protected void afterInit() {
         new HypersistenceOptimizer(
-            new JpaConfig(entityManagerFactory())
+            new HibernateConfig(sessionFactory())
                 .addEventHandler(listEventHandler)
                 .setProperties(
                     Collections.singletonMap(
@@ -46,7 +57,7 @@ public class RuntimeConfigurationPropertiesTest extends AbstractTest {
 
     @Test
     public void test() {
-        doInJPA(entityManager -> {
+        doInHibernate(session -> {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
