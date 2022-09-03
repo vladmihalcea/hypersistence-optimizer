@@ -3,9 +3,9 @@ package io.hypersistence.optimizer.config.database;
 import io.hypersistence.optimizer.hibernate.event.query.MySQLResultSetStreamingEvent;
 import io.hypersistence.optimizer.util.AbstractHypersistenceOptimizerTest;
 import io.hypersistence.optimizer.util.providers.Database;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import java.util.Properties;
 import java.util.stream.Stream;

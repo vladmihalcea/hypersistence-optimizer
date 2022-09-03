@@ -10,7 +10,7 @@ import io.hypersistence.optimizer.hibernate.event.session.SessionTimeoutEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
 import org.junit.Test;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
