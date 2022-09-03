@@ -1,7 +1,6 @@
 package io.hypersistence.optimizer.forum.dao;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
+import io.hypersistence.optimizer.forum.domain.Post;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +59,9 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
      */
     @Override
     public List<T> findAll(int maxResults) {
-        CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        CriteriaQuery<T> criteria = builder.createQuery(entityClass);
-        criteria.from(entityClass);
-
         return getSession()
-            .createQuery(criteria)
+            .createCriteria(entityClass)
             .setMaxResults(maxResults)
-            .getResultList();
+            .list();
     }
 }

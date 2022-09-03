@@ -9,10 +9,10 @@ import io.hypersistence.optimizer.util.AbstractTest;
 import io.hypersistence.optimizer.util.providers.Database;
 import org.junit.Test;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import static org.junit.Assert.assertSame;
 

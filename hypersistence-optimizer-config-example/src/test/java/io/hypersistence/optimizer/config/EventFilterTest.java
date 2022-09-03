@@ -9,7 +9,7 @@ import io.hypersistence.optimizer.util.AbstractTest;
 import io.hypersistence.optimizer.util.providers.Database;
 import org.junit.Test;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import static org.junit.Assert.fail;
 
