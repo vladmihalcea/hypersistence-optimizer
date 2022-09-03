@@ -1,7 +1,7 @@
 package io.hypersistence.optimizer.config;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
-import io.hypersistence.optimizer.core.config.JpaConfig;
+import io.hypersistence.optimizer.core.config.HibernateConfig;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.hibernate.event.mapping.EntityMappingEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.identifier.IdentityGeneratorEvent;
@@ -35,7 +35,7 @@ public class EventFilterTest extends AbstractTest {
     @Override
     protected void afterInit() {
         hypersistenceOptimizer = new HypersistenceOptimizer(
-            new JpaConfig(entityManagerFactory())
+            new HibernateConfig(sessionFactory())
                 .setEventFilter(event -> !(event instanceof IdentityGeneratorEvent))
         );
     }

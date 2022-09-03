@@ -18,10 +18,8 @@ public class PostDAOImpl extends GenericDAOImpl<Post, Long> implements PostDAO {
     @Override
     public List<Post> findByTitle(String title) {
         return getSession().createQuery(
-            "select p " +
-            "from Post p " +
-            "where p.title = :title", Post.class)
+            "select p from Post p where p.title = :title")
         .setParameter("title", title)
-        .getResultList();
+        .list();
     }
 }
