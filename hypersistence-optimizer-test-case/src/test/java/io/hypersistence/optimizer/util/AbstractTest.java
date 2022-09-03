@@ -31,10 +31,10 @@ import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.spi.PersistenceUnitInfo;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.spi.PersistenceUnitInfo;
 import javax.sql.DataSource;
 import java.util.*;
 
@@ -136,6 +136,7 @@ public abstract class AbstractTest {
         }
 
         final MetadataBuilder metadataBuilder = metadataSources.getMetadataBuilder();
+        metadataBuilder.enableNewIdentifierGeneratorSupport(true);
 
         MetadataImplementor metadata = (MetadataImplementor) metadataBuilder.build();
 
