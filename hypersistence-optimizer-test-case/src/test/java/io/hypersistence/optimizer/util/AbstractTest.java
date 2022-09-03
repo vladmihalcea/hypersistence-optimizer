@@ -8,41 +8,24 @@ import io.hypersistence.optimizer.util.providers.DataSourceProvider;
 import io.hypersistence.optimizer.util.providers.Database;
 import io.hypersistence.optimizer.util.transaction.HibernateTransactionConsumer;
 import io.hypersistence.optimizer.util.transaction.HibernateTransactionFunction;
-import io.hypersistence.optimizer.util.transaction.JPATransactionFunction;
-import io.hypersistence.optimizer.util.transaction.JPATransactionVoidFunction;
 import org.hibernate.Interceptor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataBuilder;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.SessionFactoryBuilder;
-import org.hibernate.boot.registry.BootstrapServiceRegistry;
-import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.boot.spi.MetadataImplementor;
-import org.hibernate.cfg.AvailableSettings;
-import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
-import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
+import org.hibernate.cfg.Configuration;
 import org.junit.After;
 import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.spi.PersistenceUnitInfo;
 import javax.sql.DataSource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 public abstract class AbstractTest {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
-
-    private EntityManagerFactory emf;
 
     private SessionFactory sf;
 
@@ -50,11 +33,7 @@ public abstract class AbstractTest {
 
     @Before
     public void init() {
-        if (nativeHibernateSessionFactoryBootstrap()) {
-            sf = newSessionFactory();
-        } else {
-            emf = newEntityManagerFactory();
-        }
+        sf = newSessionFactory();
         afterInit();
     }
 
@@ -64,23 +43,11 @@ public abstract class AbstractTest {
 
     @After
     public void destroy() {
-        if (nativeHibernateSessionFactoryBootstrap()) {
-            sf.close();
-        } else {
-            emf.close();
-        }
-    }
-
-    public EntityManagerFactory entityManagerFactory() {
-        return emf;
+        sf.close();
     }
 
     public SessionFactory sessionFactory() {
-        return nativeHibernateSessionFactoryBootstrap() ? sf : entityManagerFactory().unwrap(SessionFactory.class);
-    }
-
-    protected boolean nativeHibernateSessionFactoryBootstrap() {
-        return false;
+        return sf;
     }
 
     protected abstract Class<?>[] entities();
@@ -105,70 +72,20 @@ public abstract class AbstractTest {
         return null;
     }
 
-    private SessionFactory newSessionFactory() {
-        final BootstrapServiceRegistryBuilder bsrb = new BootstrapServiceRegistryBuilder()
-            .enableAutoClose();
-
-        final BootstrapServiceRegistry bsr = bsrb.build();
-
-        final StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder(bsr)
-            .applySettings(properties())
-            .build();
-
-        final MetadataSources metadataSources = new MetadataSources(serviceRegistry);
-
-        for (Class annotatedClass : entities()) {
-            metadataSources.addAnnotatedClass(annotatedClass);
+    protected SessionFactory newSessionFactory() {
+        Properties properties = properties();
+        Configuration configuration = new Configuration().addProperties(properties);
+        for (Class<?> entityClass : entities()) {
+            configuration.addAnnotatedClass(entityClass);
         }
-
-        String[] packages = packages();
-        if (packages != null) {
-            for (String annotatedPackage : packages) {
-                metadataSources.addPackage(annotatedPackage);
-            }
-        }
-
         String[] resources = resources();
         if (resources != null) {
             for (String resource : resources) {
-                metadataSources.addResource(resource);
+                configuration.addResource(resource);
             }
         }
 
-        final MetadataBuilder metadataBuilder = metadataSources.getMetadataBuilder();
-        metadataBuilder.enableNewIdentifierGeneratorSupport(true);
-
-        MetadataImplementor metadata = (MetadataImplementor) metadataBuilder.build();
-
-        final SessionFactoryBuilder sfb = metadata.getSessionFactoryBuilder();
-        Interceptor interceptor = interceptor();
-        if (interceptor != null) {
-            sfb.applyInterceptor(interceptor);
-        }
-
-        return sfb.build();
-    }
-
-    protected EntityManagerFactory newEntityManagerFactory() {
-        PersistenceUnitInfo persistenceUnitInfo = persistenceUnitInfo(getClass().getSimpleName());
-        Map<String, Object> configuration = new HashMap<String, Object>();
-        configuration.put(AvailableSettings.INTERCEPTOR, interceptor());
-
-        EntityManagerFactoryBuilderImpl entityManagerFactoryBuilder = new EntityManagerFactoryBuilderImpl(
-            new PersistenceUnitInfoDescriptor(persistenceUnitInfo), configuration
-        );
-        return entityManagerFactoryBuilder.build();
-    }
-
-    protected PersistenceUnitInfoImpl persistenceUnitInfo(String name) {
-        PersistenceUnitInfoImpl persistenceUnitInfo = new PersistenceUnitInfoImpl(
-            name, entityClassNames(), properties()
-        );
-        String[] resources = resources();
-        if (resources != null) {
-            persistenceUnitInfo.getMappingFileNames().addAll(Arrays.asList(resources));
-        }
-        return persistenceUnitInfo;
+        return configuration.buildSessionFactory();
     }
 
     protected Properties properties() {
@@ -237,7 +154,7 @@ public abstract class AbstractTest {
             txn = session.beginTransaction();
 
             result = callable.apply(session);
-            if (txn.getStatus() == TransactionStatus.ACTIVE) {
+            if (txn.isActive()) {
                 txn.commit();
             } else {
                 try {
@@ -247,7 +164,7 @@ public abstract class AbstractTest {
                 }
             }
         } catch (Throwable t) {
-            if (txn != null && txn.getStatus() == TransactionStatus.ACTIVE) {
+            if (txn != null && txn.isActive()) {
                 try {
                     txn.rollback();
                 } catch (Exception e) {
@@ -273,7 +190,7 @@ public abstract class AbstractTest {
             txn = session.beginTransaction();
 
             callable.accept(session);
-            if (txn.getStatus() == TransactionStatus.ACTIVE) {
+            if (txn.isActive()) {
                 txn.commit();
             } else {
                 try {
@@ -283,7 +200,7 @@ public abstract class AbstractTest {
                 }
             }
         } catch (Throwable t) {
-            if (txn != null && txn.getStatus() == TransactionStatus.ACTIVE) {
+            if (txn != null && txn.isActive()) {
                 try {
                     txn.rollback();
                 } catch (Exception e) {
@@ -295,78 +212,6 @@ public abstract class AbstractTest {
             callable.afterTransactionCompletion();
             if (session != null) {
                 session.close();
-            }
-        }
-    }
-
-    protected <T> T doInJPA(JPATransactionFunction<T> function) {
-        T result = null;
-        EntityManager entityManager = null;
-        EntityTransaction txn = null;
-        try {
-            entityManager = entityManagerFactory().createEntityManager();
-            function.beforeTransactionCompletion();
-            txn = entityManager.getTransaction();
-            txn.begin();
-            result = function.apply(entityManager);
-            if (!txn.getRollbackOnly()) {
-                txn.commit();
-            } else {
-                try {
-                    txn.rollback();
-                } catch (Exception e) {
-                    LOGGER.error("Rollback failure", e);
-                }
-            }
-        } catch (Throwable t) {
-            if (txn != null) {
-                try {
-                    txn.rollback();
-                } catch (Exception e) {
-                    LOGGER.error("Rollback failure", e);
-                }
-            }
-            throw new RuntimeException(t);
-        } finally {
-            function.afterTransactionCompletion();
-            if (entityManager != null) {
-                entityManager.close();
-            }
-        }
-        return result;
-    }
-
-    protected void doInJPA(JPATransactionVoidFunction function) {
-        EntityManager entityManager = null;
-        EntityTransaction txn = null;
-        try {
-            entityManager = entityManagerFactory().createEntityManager();
-            function.beforeTransactionCompletion();
-            txn = entityManager.getTransaction();
-            txn.begin();
-            function.accept(entityManager);
-            if (!txn.getRollbackOnly()) {
-                txn.commit();
-            } else {
-                try {
-                    txn.rollback();
-                } catch (Exception e) {
-                    LOGGER.error("Rollback failure", e);
-                }
-            }
-        } catch (Throwable t) {
-            if (txn != null) {
-                try {
-                    txn.rollback();
-                } catch (Exception e) {
-                    LOGGER.error("Rollback failure", e);
-                }
-            }
-            throw new RuntimeException(t);
-        } finally {
-            function.afterTransactionCompletion();
-            if (entityManager != null) {
-                entityManager.close();
             }
         }
     }
