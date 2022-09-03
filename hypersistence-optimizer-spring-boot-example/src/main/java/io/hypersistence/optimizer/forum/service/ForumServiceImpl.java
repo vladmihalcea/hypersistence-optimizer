@@ -39,7 +39,7 @@ public class ForumServiceImpl implements ForumService {
     @Override
     @Transactional
     public Post findById(Long id) {
-        return postRepository.findById(id).orElse(null);
+        return postRepository.findOne(id);
     }
 
     @Override
