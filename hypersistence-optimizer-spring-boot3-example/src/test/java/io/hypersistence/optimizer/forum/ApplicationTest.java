@@ -21,9 +21,6 @@ import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.forum.domain.Post;
 import io.hypersistence.optimizer.forum.domain.Tag;
 import io.hypersistence.optimizer.forum.service.ForumService;
-import io.hypersistence.optimizer.hibernate.event.configuration.connection.SkipAutoCommitCheckEvent;
-import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryInClauseParameterPaddingEvent;
-import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryPaginationCollectionFetchingEvent;
 import io.hypersistence.optimizer.hibernate.event.configuration.schema.SchemaGenerationEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.ManyToManyListEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneParentSideEvent;
@@ -101,10 +98,7 @@ public class ApplicationTest {
         assertEventTriggered(1, ManyToManyListEvent.class);
         assertEventTriggered(1, OneToOneParentSideEvent.class);
         assertEventTriggered(1, OneToOneWithoutMapsIdEvent.class);
-        assertEventTriggered(1, SkipAutoCommitCheckEvent.class);
         assertEventTriggered(1, SchemaGenerationEvent.class);
-        assertEventTriggered(1, QueryPaginationCollectionFetchingEvent.class);
-        assertEventTriggered(1, QueryInClauseParameterPaddingEvent.class);
 
         Post newPost = null;
 

@@ -4,7 +4,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.JpaConfig;
-import org.hibernate.jpa.HibernatePersistenceProvider;
+import io.hypersistence.optimizer.hibernate.decorator.HypersistenceHibernatePersistenceProvider;
+import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -20,11 +21,10 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
- *
  * @author Vlad Mihalcea
  */
 @Configuration
-@PropertySource({"/META-INF/application.properties"})
+@PropertySource({"/META-INF/jdbc-hsqldb.properties"})
 @ComponentScan(basePackages = "io.hypersistence.optimizer.forum")
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
@@ -70,17 +70,22 @@ public class JpaTransactionManagerConfiguration {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public EntityManagerFactory entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setPersistenceUnitName(persistenceUnitName());
-        entityManagerFactoryBean.setPersistenceProvider(new HibernatePersistenceProvider());
+        entityManagerFactoryBean.setPersistenceProvider(new HibernatePersistence());
         entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPackagesToScan(packagesToScan());
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
         entityManagerFactoryBean.setJpaProperties(additionalProperties());
-        return entityManagerFactoryBean;
+
+        entityManagerFactoryBean.afterPropertiesSet();
+
+        return HypersistenceHibernatePersistenceProvider.decorate(
+            entityManagerFactoryBean.getNativeEntityManagerFactory()
+        );
     }
 
     @Bean
@@ -93,7 +98,7 @@ public class JpaTransactionManagerConfiguration {
     }
 
     @Bean
-    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory){
+    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
