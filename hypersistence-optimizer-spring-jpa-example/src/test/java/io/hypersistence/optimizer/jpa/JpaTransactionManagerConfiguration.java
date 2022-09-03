@@ -4,7 +4,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.JpaConfig;
-import org.hibernate.jpa.HibernatePersistenceProvider;
+import io.hypersistence.optimizer.hibernate.decorator.HypersistenceHibernatePersistenceProvider;
+import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -70,17 +71,20 @@ public class JpaTransactionManagerConfiguration {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public EntityManagerFactory entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setPersistenceUnitName(persistenceUnitName());
-        entityManagerFactoryBean.setPersistenceProvider(new HibernatePersistenceProvider());
+        entityManagerFactoryBean.setPersistenceProvider(new HibernatePersistence());
         entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPackagesToScan(packagesToScan());
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
         entityManagerFactoryBean.setJpaProperties(additionalProperties());
-        return entityManagerFactoryBean;
+
+        entityManagerFactoryBean.afterPropertiesSet();
+
+        return HypersistenceHibernatePersistenceProvider.decorate(entityManagerFactoryBean.getNativeEntityManagerFactory());
     }
 
     @Bean
