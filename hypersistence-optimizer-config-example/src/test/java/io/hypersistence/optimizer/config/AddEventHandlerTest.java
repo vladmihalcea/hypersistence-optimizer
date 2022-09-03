@@ -1,10 +1,8 @@
 package io.hypersistence.optimizer.config;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
-import io.hypersistence.optimizer.core.config.JpaConfig;
-import io.hypersistence.optimizer.core.event.ChainEventHandler;
+import io.hypersistence.optimizer.core.config.HibernateConfig;
 import io.hypersistence.optimizer.core.event.Event;
-import io.hypersistence.optimizer.core.event.ListEventHandler;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
 import org.junit.Test;
@@ -14,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
@@ -38,7 +35,7 @@ public class AddEventHandlerTest extends AbstractTest {
     @Override
     protected void afterInit() {
         new HypersistenceOptimizer(
-            new JpaConfig(entityManagerFactory())
+            new HibernateConfig(sessionFactory())
                 .addEventHandler(
                     event -> {
                         tipsUrls.add(event.getInfoUrl());

@@ -40,7 +40,7 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
 
     @Override
     public T findById(ID id) {
-        return getSession().get(entityClass, id);
+        return (T) getSession().get(entityClass, id);
     }
 
     @Override
