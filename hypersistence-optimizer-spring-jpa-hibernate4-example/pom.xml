@@ -44,6 +44,12 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javassist</groupId>
+                    <artifactId>javassist</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -123,6 +129,12 @@
             <version>${spring.version}</version>
         </dependency>
 
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.29.2-GA</version>
+		</dependency>
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -136,8 +148,6 @@
 
     <properties>
         <aspectj.version>1.8.7</aspectj.version>
-        <hibernate.version>4.3.11.Final</hibernate.version>
-        <spring.version>4.3.22.RELEASE</spring.version>
     </properties>
 
 </project>
