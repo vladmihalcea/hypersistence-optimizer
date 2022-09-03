@@ -1,14 +1,17 @@
 package io.hypersistence.optimizer.config.database;
 
+import io.hypersistence.optimizer.hibernate.decorator.HypersistenceHibernatePersistenceProvider;
 import io.hypersistence.optimizer.hibernate.event.query.MySQLResultSetStreamingEvent;
 import io.hypersistence.optimizer.util.AbstractHypersistenceOptimizerTest;
 import io.hypersistence.optimizer.util.providers.Database;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.hibernate.ScrollMode;
+import org.hibernate.ScrollableResults;
+import org.hibernate.SessionFactory;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import java.util.Properties;
-import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -38,6 +41,13 @@ public class MySQLResultSetStreamingTest extends AbstractHypersistenceOptimizerT
     }
 
     @Override
+    protected SessionFactory newSessionFactory() {
+        return HypersistenceHibernatePersistenceProvider.decorate(
+            super.newSessionFactory()
+        );
+    }
+
+    @Override
     protected void additionalProperties(Properties properties) {
         //The MySQL DataSource connections are in auto-commit mode, so Hibernate must disable it
         properties.put("hibernate.connection.provider_disables_autocommit", Boolean.FALSE.toString());
@@ -45,23 +55,30 @@ public class MySQLResultSetStreamingTest extends AbstractHypersistenceOptimizerT
 
     @Override
     protected void verify() {
-        doInJPA(entityManager -> {
+        doInHibernate(session -> {
             for (long id = 1; id <= POST_COUNT; id++) {
                 Post post = new Post();
                 post.id = id;
                 post.title = String.format("High-Performance Java Persistence, part %d", id);
-                entityManager.persist(post);
+                session.persist(post);
             }
         });
 
         hypersistenceOptimizer.getEvents().clear();
 
-        doInJPA(entityManager -> {
-            try (Stream<Post> posts = entityManager
-                .createQuery("select p from Post p", Post.class)
-                .setHint("org.hibernate.fetchSize", 100)
-                .getResultStream()) {
-                assertEquals(POST_COUNT, posts.count());
+        doInHibernate(session -> {
+            ScrollableResults posts = session
+                .createQuery("select p from Post p")
+                .setFetchSize(100)
+                .scroll(ScrollMode.FORWARD_ONLY);
+            try {
+                int count = 0;
+                while (posts.next()) {
+                    count++;
+                }
+                assertEquals(POST_COUNT, count);
+            } finally {
+                posts.close();
             }
         });
 

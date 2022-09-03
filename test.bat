@@ -1,7 +1,10 @@
 @echo off
 
-call test1 || exit /b
-call test2 || exit /b
-call test3 || exit /b
+set JAVA_HOME=%JAVA_HOME_8%
+@echo on
+echo Using Java version - [%JAVA_HOME%]
+@echo off
+
+mvn clean install
 
 goto:eof

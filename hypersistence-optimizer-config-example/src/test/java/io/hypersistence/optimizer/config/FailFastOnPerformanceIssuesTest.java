@@ -1,14 +1,14 @@
 package io.hypersistence.optimizer.config;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
-import io.hypersistence.optimizer.core.config.JpaConfig;
+import io.hypersistence.optimizer.core.config.HibernateConfig;
 import io.hypersistence.optimizer.util.AbstractTest;
 import org.junit.Test;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import static org.junit.Assert.assertTrue;
 
@@ -28,7 +28,7 @@ public class FailFastOnPerformanceIssuesTest extends AbstractTest {
     @Test(expected = AssertionError.class)
     public void testNoPerformanceIssues() {
         HypersistenceOptimizer hypersistenceOptimizer = new HypersistenceOptimizer(
-            new JpaConfig(entityManagerFactory())
+            new HibernateConfig(sessionFactory())
         );
 
         assertTrue(hypersistenceOptimizer.getEvents().isEmpty());
