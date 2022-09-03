@@ -72,7 +72,7 @@ public class MySQLDataSourceProvider implements DataSourceProvider {
 
     @Override
     public String hibernateDialect() {
-        return "org.hibernate.dialect.MySQL8Dialect";
+        return "org.hibernate.dialect.MySQLInnoDBDialect";
     }
 
     @Override
@@ -87,8 +87,8 @@ public class MySQLDataSourceProvider implements DataSourceProvider {
                 "&useLegacyDatetimeCode=" + useLegacyDatetimeCode
 
         );
-        dataSource.setUser("mysql");
-        dataSource.setPassword("admin");
+        dataSource.setUser(username());
+        dataSource.setPassword(password());
         return dataSource;
     }
 
@@ -111,12 +111,12 @@ public class MySQLDataSourceProvider implements DataSourceProvider {
 
     @Override
     public String username() {
-        return null;
+        return "mysql";
     }
 
     @Override
     public String password() {
-        return null;
+        return "admin";
     }
 
     @Override

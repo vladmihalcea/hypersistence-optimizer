@@ -12,7 +12,7 @@ public class PostgreSQLDataSourceProvider implements DataSourceProvider {
 
     @Override
     public String hibernateDialect() {
-        return "org.hibernate.dialect.PostgreSQL95Dialect";
+        return "org.hibernate.dialect.PostgreSQLDialect";
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PostgreSQLDataSourceProvider implements DataSourceProvider {
 
     @Override
     public String url() {
-        return null;
+        return "jdbc:postgresql://localhost/high_performance_java_persistence";
     }
 
     @Override
