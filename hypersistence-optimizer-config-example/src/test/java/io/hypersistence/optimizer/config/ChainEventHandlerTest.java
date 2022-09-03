@@ -1,7 +1,7 @@
 package io.hypersistence.optimizer.config;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
-import io.hypersistence.optimizer.core.config.JpaConfig;
+import io.hypersistence.optimizer.core.config.HibernateConfig;
 import io.hypersistence.optimizer.core.event.ChainEventHandler;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
@@ -40,7 +40,7 @@ public class ChainEventHandlerTest extends AbstractTest {
     @Override
     protected void afterInit() {
         new HypersistenceOptimizer(
-            new JpaConfig(entityManagerFactory())
+            new HibernateConfig(sessionFactory())
                 .addEventHandler(
                     new ChainEventHandler(
                         Arrays.asList(

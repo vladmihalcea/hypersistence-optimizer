@@ -22,14 +22,13 @@ public class TagDAOImpl extends GenericDAOImpl<Tag, Long> implements TagDAO {
         if(tags.length == 0) {
             throw new IllegalArgumentException("There's no tag name to search for!");
         }
-        Session session =  getEntityManager().unwrap(Session.class);
 
         return getEntityManager().createQuery(
-                "select t " +
-                        "from Tag t " +
-                        "where t.name in :tags", Tag.class)
-                .setParameter("tags", Arrays.asList(tags))
-                .getResultList();
+            "select t " +
+            "from Tag t " +
+            "where t.name in :tags", Tag.class)
+        .setParameter("tags", Arrays.asList(tags))
+        .getResultList();
     }
 }
 
