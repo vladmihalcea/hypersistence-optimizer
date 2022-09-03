@@ -2,15 +2,17 @@ package io.hypersistence.optimizer.config;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.ConfigThresholds;
-import io.hypersistence.optimizer.core.config.JpaConfig;
+import io.hypersistence.optimizer.core.config.HibernateConfig;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.core.event.ListEventHandler;
+import io.hypersistence.optimizer.hibernate.decorator.HypersistenceHibernatePersistenceProvider;
 import io.hypersistence.optimizer.hibernate.event.query.QueryResultListSizeEvent;
 import io.hypersistence.optimizer.hibernate.event.session.SessionTimeoutEvent;
 import io.hypersistence.optimizer.util.AbstractTest;
+import org.hibernate.SessionFactory;
 import org.junit.Test;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -33,9 +35,16 @@ public class ConfigThresholdsTest extends AbstractTest {
     private ListEventHandler listEventHandler = new ListEventHandler();
 
     @Override
+    protected SessionFactory newSessionFactory() {
+        return HypersistenceHibernatePersistenceProvider.decorate(
+            super.newSessionFactory()
+        );
+    }
+
+    @Override
     protected void afterInit() {
         new HypersistenceOptimizer(
-            new JpaConfig(entityManagerFactory())
+            new HibernateConfig(sessionFactory())
                 .addEventHandler(listEventHandler)
                 .setThresholds(
                     ConfigThresholds.builder()
@@ -48,22 +57,22 @@ public class ConfigThresholdsTest extends AbstractTest {
 
     @Test
     public void test() {
-        doInJPA(entityManager -> {
+        doInHibernate(session -> {
             for (long id = 1; id <= 3; id++) {
                 Post post = new Post();
                 post.setId(id);
                 post.setTitle(String.format("High-Performance Java Persistence, part %d", id));
-                entityManager.persist(post);
+                session.persist(post);
             }
         });
 
         listEventHandler.getEvents().clear();
 
-        doInJPA(entityManager -> {
+        doInHibernate(session -> {
             assertEquals(
                 3,
-                entityManager.createQuery("select p from Post p", Post.class)
-                    .getResultList()
+                session.createQuery("select p from Post p")
+                    .list()
                     .size()
             );
             try {

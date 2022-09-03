@@ -2,11 +2,11 @@ package io.hypersistence.optimizer.config.database;
 
 import io.hypersistence.optimizer.util.AbstractHypersistenceOptimizerTest;
 import io.hypersistence.optimizer.util.providers.Database;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
