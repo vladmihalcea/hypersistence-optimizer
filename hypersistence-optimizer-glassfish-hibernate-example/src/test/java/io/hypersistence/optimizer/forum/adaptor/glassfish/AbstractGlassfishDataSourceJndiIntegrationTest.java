@@ -52,8 +52,6 @@ public abstract class AbstractGlassfishDataSourceJndiIntegrationTest {
         assertEventTriggered(1, OneToOneParentSideEvent.class);
         assertEventTriggered(1, OneToOneWithoutMapsIdEvent.class);
         assertEventTriggered(1, SchemaGenerationEvent.class);
-        assertEventTriggered(1, QueryPaginationCollectionFetchingEvent.class);
-        assertEventTriggered(1, QueryInClauseParameterPaddingEvent.class);
 
         doInTransaction(() -> {
             Post post = new Post();
