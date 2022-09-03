@@ -32,7 +32,6 @@
             <groupId>io.hypersistence</groupId>
             <artifactId>hypersistence-optimizer</artifactId>
             <version>${hypersistence-optimizer.version}</version>
-            <classifier>jakarta</classifier>
         </dependency>
 
         <dependency>
@@ -46,6 +45,12 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
 
@@ -96,9 +101,5 @@
             </exclusions>
         </dependency>
     </dependencies>
-
-    <properties>
-        <jdk.version>17</jdk.version>
-    </properties>
 
 </project>
