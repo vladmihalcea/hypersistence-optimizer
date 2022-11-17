@@ -204,7 +204,7 @@
 
         <mockito.version>1.10.19</mockito.version>
         <junit.version>4.13.1</junit.version>
-        <hsqldb.version>2.5.1</hsqldb.version>
+        <hsqldb.version>2.7.1</hsqldb.version>
         <mysql.version>8.0.19</mysql.version>
         <postgresql.version>42.2.5.jre6</postgresql.version>
 
