@@ -122,8 +122,8 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <version>${mysql.version}</version>
             <scope>test</scope>
         </dependency>
@@ -205,7 +205,7 @@
         <mockito.version>1.10.19</mockito.version>
         <junit.version>4.13.1</junit.version>
         <hsqldb.version>2.5.1</hsqldb.version>
-        <mysql.version>8.0.19</mysql.version>
+        <mysql.version>8.0.31</mysql.version>
         <postgresql.version>42.2.5.jre6</postgresql.version>
 
         <datasource-proxy.version>1.3.3</datasource-proxy.version>
