@@ -48,6 +48,7 @@
 		<module>hypersistence-optimizer-spring-jpa-hibernate4-example</module>
 		<module>hypersistence-optimizer-spring-jpa-hibernate3-example</module>
 		<module>hypersistence-optimizer-spring-boot-example</module>
+		<module>hypersistence-optimizer-spring-boot3-example</module>
 		<module>hypersistence-optimizer-glassfish-hibernate-example</module>
 		<module>hypersistence-optimizer-glassfish-hibernate4-example</module>
         <module>hypersistence-optimizer-quarkus-spring-example</module>
@@ -57,62 +58,6 @@
     <dependencies>
 
         <!-- Required dependencies -->
-        <dependency>
-            <groupId>io.hypersistence</groupId>
-            <artifactId>hypersistence-optimizer</artifactId>
-            <version>${hypersistence-optimizer.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>${hikari.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- Test dependencies -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -133,19 +78,6 @@
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-testing</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -170,6 +102,25 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-toolchains-plugin</artifactId>
+                <version>${maven-toolchains-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>toolchain</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <toolchains>
+                        <jdk>
+                            <version>${jdk.version}</version>
+                        </jdk>
+                    </toolchains>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
@@ -189,12 +140,18 @@
     </build>
 
     <properties>
+        <jdk.version>8</jdk.version>
+
+        <maven.compiler.source>${jdk.version}</maven.compiler.source>
+        <maven.compiler.target>${jdk.version}</maven.compiler.target>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <hypersistence-optimizer.version>2.6.3</hypersistence-optimizer.version>
 
         <hibernate.version>5.6.10.Final</hibernate.version>
 
+        <maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
@@ -206,11 +163,11 @@
         <junit.version>4.13.1</junit.version>
         <hsqldb.version>2.5.1</hsqldb.version>
         <mysql.version>8.0.19</mysql.version>
-        <postgresql.version>42.2.5.jre6</postgresql.version>
+        <postgresql.version>42.3.1</postgresql.version>
 
         <datasource-proxy.version>1.3.3</datasource-proxy.version>
 
-        <hikari.version>1.3.3</hikari.version>
+        <hikari.version>4.0.3</hikari.version>
     </properties>
 
 </project>
