@@ -19,7 +19,8 @@
         <dependency>
             <groupId>io.hypersistence</groupId>
             <artifactId>hypersistence-optimizer</artifactId>
-            <version>${hypersistence-optimizer.version}-jakarta</version>
+            <version>${hypersistence-optimizer.version}</version>
+            <classifier>jakarta</classifier>
         </dependency>
 
         <dependency>
