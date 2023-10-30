@@ -48,18 +48,70 @@
 		<module>hypersistence-optimizer-spring-jpa-hibernate4-example</module>
 		<module>hypersistence-optimizer-spring-jpa-hibernate3-example</module>
 		<module>hypersistence-optimizer-spring-boot-example</module>
-		<module>hypersistence-optimizer-spring-boot3-example</module>
 		<module>hypersistence-optimizer-glassfish-hibernate-example</module>
 		<module>hypersistence-optimizer-glassfish-hibernate4-example</module>
-        <module>hypersistence-optimizer-quarkus-spring-example</module>
-        <module>hypersistence-optimizer-quarkus-example</module>
-        <module>hypersistence-optimizer-micronaut-example</module>
         <module>hypersistence-optimizer-micronaut2-example</module>
     </modules>
 
     <dependencies>
 
         <!-- Required dependencies -->
+        <dependency>
+            <groupId>io.hypersistence</groupId>
+            <artifactId>hypersistence-optimizer</artifactId>
+            <version>${hypersistence-optimizer.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikari.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -80,6 +132,19 @@
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-testing</artifactId>
+            <version>${hibernate.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -149,9 +214,9 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <hypersistence-optimizer.version>2.8.1</hypersistence-optimizer.version>
+        <hypersistence-optimizer.version>2.8.2</hypersistence-optimizer.version>
 
-        <hibernate.version>5.6.10.Final</hibernate.version>
+        <hibernate.version>5.2.18.Final</hibernate.version>
 
         <maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
