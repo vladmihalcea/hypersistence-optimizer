@@ -3,12 +3,14 @@ package io.hypersistence.optimizer.config.database;
 import io.hypersistence.optimizer.hibernate.event.query.MySQLResultSetStreamingEvent;
 import io.hypersistence.optimizer.util.AbstractHypersistenceOptimizerTest;
 import io.hypersistence.optimizer.util.providers.Database;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.hibernate.ScrollMode;
+import org.hibernate.ScrollableResults;
+import org.hibernate.Session;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import java.util.Properties;
-import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -57,11 +59,19 @@ public class MySQLResultSetStreamingTest extends AbstractHypersistenceOptimizerT
         hypersistenceOptimizer.getEvents().clear();
 
         doInJPA(entityManager -> {
-            try (Stream<Post> posts = entityManager
-                .createQuery("select p from Post p", Post.class)
-                .setHint("org.hibernate.fetchSize", 100)
-                .getResultStream()) {
-                assertEquals(POST_COUNT, posts.count());
+            ScrollableResults posts = entityManager
+                .unwrap(Session.class)
+                .createQuery("select p from Post p")
+                .setFetchSize(100)
+                .scroll(ScrollMode.FORWARD_ONLY);
+            try {
+                int count = 0;
+                while (posts.next()) {
+                    count++;
+                }
+                assertEquals(POST_COUNT, count);
+            } finally {
+                posts.close();
             }
         });
 

@@ -52,7 +52,7 @@
     </dependencies>
 
     <properties>
-        <spring-boot.version>2.4.1</spring-boot.version>
+        <spring-boot.version>1.4.7.RELEASE</spring-boot.version>
         <hikari.version>3.4.5</hikari.version>
         <junit-vintage.engine.version>5.10.3</junit-vintage.engine.version>
     </properties>
