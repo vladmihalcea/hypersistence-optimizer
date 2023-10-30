@@ -12,7 +12,7 @@ public class PostgreSQLDataSourceProvider implements DataSourceProvider {
 
     @Override
     public String hibernateDialect() {
-        return "org.hibernate.dialect.PostgreSQL95Dialect";
+        return "org.hibernate.dialect.PostgreSQL94Dialect";
     }
 
     @Override
