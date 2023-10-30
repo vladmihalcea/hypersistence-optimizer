@@ -41,7 +41,7 @@
     <properties>
         <jdk.version>17</jdk.version>
 
-        <spring-boot.version>3.0.5</spring-boot.version>
+        <spring-boot.version>3.2.0</spring-boot.version>
         <hikari.version>3.4.5</hikari.version>
     </properties>
 
