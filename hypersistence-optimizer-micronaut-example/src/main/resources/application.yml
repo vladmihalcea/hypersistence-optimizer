@@ -1,0 +1,22 @@
+micronaut:
+  application:
+    name: hypersistence-optimizer-micronaut-example
+
+jackson:
+  bean-introspection-module: true
+
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/high_performance_java_persistence
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: admin
+    dialect: PostgreSQL
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: create-drop
+        show_sql: true

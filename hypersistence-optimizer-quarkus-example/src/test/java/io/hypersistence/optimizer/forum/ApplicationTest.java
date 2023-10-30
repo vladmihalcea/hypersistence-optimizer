@@ -22,6 +22,7 @@ import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.forum.domain.Post;
 import io.hypersistence.optimizer.forum.domain.Tag;
 import io.hypersistence.optimizer.forum.service.ForumService;
+import io.hypersistence.optimizer.hibernate.event.configuration.connection.DataSourceConnectionProviderEvent;
 import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryInClauseParameterPaddingEvent;
 import io.hypersistence.optimizer.hibernate.event.configuration.query.QueryPaginationCollectionFetchingEvent;
 import io.hypersistence.optimizer.hibernate.event.configuration.schema.SchemaGenerationEvent;
@@ -79,6 +80,7 @@ public class ApplicationTest {
 
     @Test
     public void test() {
+        assertEventTriggered(0, DataSourceConnectionProviderEvent.class);
         assertEventTriggered(2, EagerFetchingEvent.class);
         assertEventTriggered(1, ManyToManyListEvent.class);
         assertEventTriggered(1, OneToOneParentSideEvent.class);

@@ -53,6 +53,8 @@
 		<module>hypersistence-optimizer-glassfish-hibernate4-example</module>
         <module>hypersistence-optimizer-quarkus-spring-example</module>
         <module>hypersistence-optimizer-quarkus-example</module>
+        <module>hypersistence-optimizer-micronaut-example</module>
+        <module>hypersistence-optimizer-micronaut2-example</module>
     </modules>
 
     <dependencies>
