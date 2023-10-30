@@ -11,7 +11,7 @@ import io.hypersistence.optimizer.util.AbstractTest;
 import io.hypersistence.optimizer.util.transaction.JPATransactionVoidFunction;
 import org.junit.Test;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.Collections;
 
