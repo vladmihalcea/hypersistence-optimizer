@@ -91,7 +91,7 @@
     </dependencies>
 	
 	<properties>
-        <jdk.version>11</jdk.version>
+        <jdk.version>8</jdk.version>
 
         <maven.compiler.parameters>true</maven.compiler.parameters>
 
