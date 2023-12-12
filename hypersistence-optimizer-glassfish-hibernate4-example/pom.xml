@@ -128,7 +128,7 @@
     </dependencies>
 
     <properties>
-        <hibernate.version>4.3.11.Final</hibernate.version>
+        <hibernate.version>5.3.20.Final</hibernate.version>
         <arquillian.version>1.0.3.Final</arquillian.version>
         <arquillian.junit.container.version>1.0.3.Final</arquillian.junit.container.version>
         <arquillian.glassfish.version>1.0.0.CR3</arquillian.glassfish.version>
