@@ -9,31 +9,31 @@ Once you downloaded the [Full or Trial version](https://vladmihalcea.com/hypersi
 The first thing you need to do is to unzip the package you have just downloaded.
 
 ```bash
-> unzip hypersistence-optimizer-2.8.1-pack.zip
+> unzip hypersistence-optimizer-2.8.2-pack.zip
 ```
 
 After unzipping the project package, you will get the following file structure:
 
 ```bash
-creating: hypersistence-optimizer-2.8.1/
-   creating: hypersistence-optimizer-2.8.1/lib/
-  inflating: hypersistence-optimizer-2.8.1/lib/hypersistence-optimizer-2.8.1-javadoc.jar
-  inflating: hypersistence-optimizer-2.8.1/lib/hypersistence-optimizer-2.8.1-sources.jar
-  inflating: hypersistence-optimizer-2.8.1/lib/hypersistence-optimizer-2.8.1.jar
-   creating: hypersistence-optimizer-2.8.1/docs/
-   creating: hypersistence-optimizer-2.8.1/docs/html/
-   creating: hypersistence-optimizer-2.8.1/docs/pdf/
-  inflating: hypersistence-optimizer-2.8.1/docs/html/asciidoctor.css
-  inflating: hypersistence-optimizer-2.8.1/docs/html/coderay-asciidoctor.css
-  inflating: hypersistence-optimizer-2.8.1/docs/pdf/InstallationGuide.pdf
-  inflating: hypersistence-optimizer-2.8.1/docs/html/InstallationGuide.html
-  inflating: hypersistence-optimizer-2.8.1/docs/html/UserGuide.html
-  inflating: hypersistence-optimizer-2.8.1/docs/pdf/UserGuide.pdf
-  inflating: hypersistence-optimizer-2.8.1/changelog.txt
-  inflating: hypersistence-optimizer-2.8.1/LICENSE.txt
-  inflating: hypersistence-optimizer-2.8.1/maven-install.bat
-  inflating: hypersistence-optimizer-2.8.1/maven-install.sh
-  inflating: hypersistence-optimizer-2.8.1/README.txt
+creating: hypersistence-optimizer-2.8.2/
+   creating: hypersistence-optimizer-2.8.2/lib/
+  inflating: hypersistence-optimizer-2.8.2/lib/hypersistence-optimizer-2.8.2-javadoc.jar
+  inflating: hypersistence-optimizer-2.8.2/lib/hypersistence-optimizer-2.8.2-sources.jar
+  inflating: hypersistence-optimizer-2.8.2/lib/hypersistence-optimizer-2.8.2.jar
+   creating: hypersistence-optimizer-2.8.2/docs/
+   creating: hypersistence-optimizer-2.8.2/docs/html/
+   creating: hypersistence-optimizer-2.8.2/docs/pdf/
+  inflating: hypersistence-optimizer-2.8.2/docs/html/asciidoctor.css
+  inflating: hypersistence-optimizer-2.8.2/docs/html/coderay-asciidoctor.css
+  inflating: hypersistence-optimizer-2.8.2/docs/pdf/InstallationGuide.pdf
+  inflating: hypersistence-optimizer-2.8.2/docs/html/InstallationGuide.html
+  inflating: hypersistence-optimizer-2.8.2/docs/html/UserGuide.html
+  inflating: hypersistence-optimizer-2.8.2/docs/pdf/UserGuide.pdf
+  inflating: hypersistence-optimizer-2.8.2/changelog.txt
+  inflating: hypersistence-optimizer-2.8.2/LICENSE.txt
+  inflating: hypersistence-optimizer-2.8.2/maven-install.bat
+  inflating: hypersistence-optimizer-2.8.2/maven-install.sh
+  inflating: hypersistence-optimizer-2.8.2/README.txt
 ```
 
 The package contains the following resources:
@@ -50,8 +50,8 @@ The package contains the following resources:
 In order to install Hypersistence Optimizer, you need to read the Installation Guide, which is available both in
 HTML and PDF formats in the unzipped package:
 
-* `hypersistence-optimizer-2.8.1/docs/pdf/InstallationGuide.pdf`
-* `hypersistence-optimizer-2.8.1/docs/html/InstallationGuide.html`
+* `hypersistence-optimizer-2.8.2/docs/pdf/InstallationGuide.pdf`
+* `hypersistence-optimizer-2.8.2/docs/html/InstallationGuide.html`
 
 > You can also read the [Installation Guide online](https://vladmihalcea.com/hypersistence-optimizer/docs/installation-guide/) if you want.
 
@@ -62,8 +62,8 @@ Hypersistence Optimizer so that you can get the most out of it.
 
 You can find the User Guide in the docs folder as well:
 
-* `hypersistence-optimizer-2.8.1/docs/html/UserGuide.html`
-* `hypersistence-optimizer-2.8.1/docs/pdf/UserGuide.pdf`
+* `hypersistence-optimizer-2.8.2/docs/html/UserGuide.html`
+* `hypersistence-optimizer-2.8.2/docs/pdf/UserGuide.pdf`
 
 > You can also read the [User Guide online](https://vladmihalcea.com/hypersistence-optimizer/docs/user-guide/) if you want.
 
