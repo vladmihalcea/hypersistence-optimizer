@@ -48,6 +48,7 @@
 		<module>hypersistence-optimizer-spring-jpa-hibernate4-example</module>
 		<module>hypersistence-optimizer-spring-jpa-hibernate3-example</module>
 		<module>hypersistence-optimizer-spring-boot-example</module>
+		<module>hypersistence-optimizer-spring-boot-jta-example</module>
 		<module>hypersistence-optimizer-spring-boot3-example</module>
 		<module>hypersistence-optimizer-glassfish-hibernate-example</module>
 		<module>hypersistence-optimizer-glassfish-hibernate4-example</module>
