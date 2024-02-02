@@ -149,7 +149,7 @@
     <properties>
         <aspectj.version>1.8.7</aspectj.version>
         <hibernate.version>3.6.10.Final</hibernate.version>
-		<spring.version>3.2.9.RELEASE</spring.version>
+		<spring.version>5.2.22.RELEASE</spring.version>
     </properties>
 
 </project>
