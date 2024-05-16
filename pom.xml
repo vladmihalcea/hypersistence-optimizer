@@ -150,7 +150,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <hypersistence-optimizer.version>2.8.2</hypersistence-optimizer.version>
+        <hypersistence-optimizer.version>2.9.0</hypersistence-optimizer.version>
 
         <hibernate.version>6.4.8.Final</hibernate.version>
 
