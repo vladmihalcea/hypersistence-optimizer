@@ -153,7 +153,7 @@
 
         <hypersistence-optimizer.version>2.15.0</hypersistence-optimizer.version>
 
-        <hibernate.version>6.6.0.Final</hibernate.version>
+        <hibernate.version>6.2.25.Final</hibernate.version>
 
         <maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
