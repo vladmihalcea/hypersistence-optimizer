@@ -1,5 +1,6 @@
 package io.hypersistence.optimizer.util.providers;
 
+import org.hibernate.dialect.PostgreSQLDialect;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
@@ -12,7 +13,7 @@ public class PostgreSQLDataSourceProvider implements DataSourceProvider {
 
     @Override
     public String hibernateDialect() {
-        return "org.hibernate.dialect.PostgreSQL95Dialect";
+        return PostgreSQLDialect.class.getName();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package io.hypersistence.optimizer.forum.domain;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 /**
  * @author Vlad Mihalcea

@@ -9,10 +9,10 @@ import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.E
 import io.hypersistence.optimizer.util.AbstractTest;
 import org.junit.Test;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

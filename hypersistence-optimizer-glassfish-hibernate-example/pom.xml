@@ -132,6 +132,7 @@
         <arquillian.junit.container.version>1.0.3.Final</arquillian.junit.container.version>
         <arquillian.glassfish.version>1.0.0.CR3</arquillian.glassfish.version>
         <glassfish.embedded.version>5.1.0</glassfish.embedded.version>
+        <hibernate.version>5.6.15.Final</hibernate.version>
     </properties>
 
     <build>

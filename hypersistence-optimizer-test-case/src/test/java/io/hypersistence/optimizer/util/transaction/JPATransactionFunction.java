@@ -1,6 +1,6 @@
 package io.hypersistence.optimizer.util.transaction;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 /**
  * @author Vlad Mihalcea

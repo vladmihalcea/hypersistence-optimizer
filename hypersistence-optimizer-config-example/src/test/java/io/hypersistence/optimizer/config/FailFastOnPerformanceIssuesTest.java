@@ -5,10 +5,10 @@ import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.util.AbstractTest;
 import org.junit.Test;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import static org.junit.Assert.assertTrue;
 

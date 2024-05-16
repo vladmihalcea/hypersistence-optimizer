@@ -102,7 +102,7 @@
         <micronaut-data.version>3.9.6</micronaut-data.version>
 		<micronaut.test.resources.enabled>true</micronaut.test.resources.enabled>
 
-        <hypersistence-optimizer.version>2.8.1</hypersistence-optimizer.version>
+        <hypersistence-optimizer.version>2.8.2</hypersistence-optimizer.version>
     </properties>
 
     <build>
