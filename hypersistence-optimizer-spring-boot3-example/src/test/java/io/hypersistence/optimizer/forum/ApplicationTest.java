@@ -29,6 +29,7 @@ import io.hypersistence.optimizer.hibernate.event.mapping.association.ManyToMany
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneParentSideEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.OneToOneWithoutMapsIdEvent;
 import io.hypersistence.optimizer.hibernate.event.mapping.association.fetching.EagerFetchingEvent;
+import io.hypersistence.optimizer.hibernate.event.mapping.cache.NaturalIdCacheEvent;
 import io.hypersistence.optimizer.hibernate.event.query.PaginationWithoutOrderByEvent;
 import io.hypersistence.optimizer.hibernate.event.session.SessionTimeoutEvent;
 import jakarta.persistence.EntityManager;
@@ -105,6 +106,7 @@ public class ApplicationTest {
         assertEventTriggered(1, SchemaGenerationEvent.class);
         assertEventTriggered(1, QueryPaginationCollectionFetchingEvent.class);
         assertEventTriggered(1, QueryInClauseParameterPaddingEvent.class);
+        assertEventTriggered(0, NaturalIdCacheEvent.class);
 
         Post newPost = null;
 

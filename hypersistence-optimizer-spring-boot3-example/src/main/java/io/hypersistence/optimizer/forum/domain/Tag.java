@@ -4,18 +4,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
 
 /**
  * @author Vlad Mihalcea
  */
 @Entity
 @Table(name = "tag")
+@NaturalIdCache
 public class Tag {
 
     @Id
     @GeneratedValue
     private Long id;
 
+    @NaturalId
     private String name;
 
     public Long getId() {
