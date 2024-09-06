@@ -150,9 +150,9 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <hypersistence-optimizer.version>2.9.0-trial</hypersistence-optimizer.version>
+        <hypersistence-optimizer.version>2.10.0-trial</hypersistence-optimizer.version>
 
-        <hibernate.version>6.4.8.Final</hibernate.version>
+        <hibernate.version>6.6.0.Final</hibernate.version>
 
         <maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
