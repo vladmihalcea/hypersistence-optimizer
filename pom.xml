@@ -42,8 +42,8 @@
 		<module>hypersistence-optimizer-test-case</module>
 		<module>hypersistence-optimizer-config-example</module>
 		<module>hypersistence-optimizer-spring-hibernate-example</module>
-		<module>hypersistence-optimizer-spring-hibernate4-example </module>
-		<module>hypersistence-optimizer-spring-hibernate3-example </module>
+		<module>hypersistence-optimizer-spring-hibernate4-example</module>
+		<module>hypersistence-optimizer-spring-hibernate3-example</module>
 		<module>hypersistence-optimizer-spring-jpa-example</module>
 		<module>hypersistence-optimizer-spring-jpa-hibernate4-example</module>
 		<module>hypersistence-optimizer-spring-jpa-hibernate3-example</module>
@@ -150,7 +150,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <hypersistence-optimizer.version>2.10.1</hypersistence-optimizer.version>
+        <hypersistence-optimizer.version>2.11.0</hypersistence-optimizer.version>
 
         <hibernate.version>6.6.0.Final</hibernate.version>
 
