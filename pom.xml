@@ -50,6 +50,7 @@
 		<module>hypersistence-optimizer-spring-boot-example</module>
 		<module>hypersistence-optimizer-spring-boot-jta-example</module>
 		<module>hypersistence-optimizer-spring-boot3-example</module>
+		<module>hypersistence-optimizer-spring-boot3-hibernate7-example</module>
 		<module>hypersistence-optimizer-glassfish-hibernate-example</module>
 		<module>hypersistence-optimizer-glassfish-hibernate4-example</module>
         <module>hypersistence-optimizer-quarkus-spring-example</module>
@@ -150,14 +151,14 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <hypersistence-optimizer.version>2.11.1</hypersistence-optimizer.version>
+        <hypersistence-optimizer.version>2.12.1</hypersistence-optimizer.version>
 
         <hibernate.version>6.6.0.Final</hibernate.version>
 
         <maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
-        <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 
         <slf4j.version>1.7.26</slf4j.version>
         <logback.version>1.2.3</logback.version>
