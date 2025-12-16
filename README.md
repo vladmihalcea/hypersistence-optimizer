@@ -9,22 +9,22 @@ Once you downloaded the [Full or Trial version](https://vladmihalcea.com/hypersi
 The first thing you need to do is to unzip the package you have just downloaded.
 
 ```bash
-> unzip hypersistence-optimizer-2.12.1-trial-pack.zip
+> unzip hypersistence-optimizer-2.13.0-trial-pack.zip
 ```
 
 After unzipping the project package, you will get the following file structure:
 
 ```bash
-creating: hypersistence-optimizer-2.12.1-trial/
-   creating: hypersistence-optimizer-2.12.1-trial/lib/
-  inflating: hypersistence-optimizer-2.12.1-trial/lib/hypersistence-optimizer-2.12.1-trial-javadoc.jar
-  inflating: hypersistence-optimizer-2.12.1-trial/lib/hypersistence-optimizer-2.12.1-trial-sources.jar
-  inflating: hypersistence-optimizer-2.12.1-trial/lib/hypersistence-optimizer-2.12.1-trial.jar
-  inflating: hypersistence-optimizer-2.12.1-trial/changelog.txt
-  inflating: hypersistence-optimizer-2.12.1-trial/LICENSE.txt
-  inflating: hypersistence-optimizer-2.12.1-trial/maven-install.bat
-  inflating: hypersistence-optimizer-2.12.1-trial/maven-install.sh
-  inflating: hypersistence-optimizer-2.12.1-trial/README.txt
+creating: hypersistence-optimizer-2.13.0-trial/
+   creating: hypersistence-optimizer-2.13.0-trial/lib/
+  inflating: hypersistence-optimizer-2.13.0-trial/lib/hypersistence-optimizer-2.13.0-trial-javadoc.jar
+  inflating: hypersistence-optimizer-2.13.0-trial/lib/hypersistence-optimizer-2.13.0-trial-sources.jar
+  inflating: hypersistence-optimizer-2.13.0-trial/lib/hypersistence-optimizer-2.13.0-trial.jar
+  inflating: hypersistence-optimizer-2.13.0-trial/changelog.txt
+  inflating: hypersistence-optimizer-2.13.0-trial/LICENSE.txt
+  inflating: hypersistence-optimizer-2.13.0-trial/maven-install.bat
+  inflating: hypersistence-optimizer-2.13.0-trial/maven-install.sh
+  inflating: hypersistence-optimizer-2.13.0-trial/README.txt
 ```
 
 The package contains the following resources:
