@@ -1,6 +1,7 @@
 package io.hypersistence.optimizer.forum;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
+import io.hypersistence.optimizer.core.config.Config;
 import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.hibernate.decorator.HypersistenceHibernatePersistenceProvider;
 import org.hibernate.SessionFactory;
@@ -19,6 +20,13 @@ public class HypersistenceConfiguration {
         return new HypersistenceOptimizer(
             new JpaConfig(
                 entityManagerFactory
+            )
+            .setEventPersistence(
+                new Config.EventPersistence()
+                    .setEnabled(true)
+                    .setApplicationName("quarkus-spring-example")
+                    .setWebAppEnabled(true)
+                    .setWebAppPort(0)
             )
         );
     }

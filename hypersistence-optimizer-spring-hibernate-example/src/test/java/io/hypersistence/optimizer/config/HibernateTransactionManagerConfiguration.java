@@ -3,6 +3,7 @@ package io.hypersistence.optimizer.config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.hypersistence.optimizer.HypersistenceOptimizer;
+import io.hypersistence.optimizer.core.config.Config;
 import io.hypersistence.optimizer.core.config.HibernateConfig;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,6 +81,13 @@ public class HibernateTransactionManagerConfiguration {
         return new HypersistenceOptimizer(
             new HibernateConfig(
                 sessionFactory
+            )
+            .setEventPersistence(
+                new Config.EventPersistence()
+                    .setEnabled(true)
+                    .setApplicationName("spring-hibernate-example")
+                    .setWebAppEnabled(true)
+                    .setWebAppPort(0)
             )
         );
     }

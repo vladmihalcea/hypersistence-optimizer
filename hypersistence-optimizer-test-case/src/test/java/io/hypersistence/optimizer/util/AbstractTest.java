@@ -217,7 +217,14 @@ public abstract class AbstractTest {
             .setExceptionHandler(e -> {
                 DefaultExceptionHandler.INSTANCE.handle(e);
                 exceptions.add(e);
-            });
+            })
+            .setEventPersistence(
+                new Config.EventPersistence()
+                    .setEnabled(true)
+                    .setApplicationName("test-case")
+                    .setWebAppEnabled(true)
+                    .setWebAppPort(0)
+            );
 
         return new HypersistenceOptimizer(config);
     }

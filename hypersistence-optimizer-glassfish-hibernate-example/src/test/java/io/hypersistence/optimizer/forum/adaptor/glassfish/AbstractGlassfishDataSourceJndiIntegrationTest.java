@@ -1,6 +1,7 @@
 package io.hypersistence.optimizer.forum.adaptor.glassfish;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
+import io.hypersistence.optimizer.core.config.Config;
 import io.hypersistence.optimizer.core.config.JpaConfig;
 import io.hypersistence.optimizer.core.event.Event;
 import io.hypersistence.optimizer.forum.domain.Post;
@@ -41,6 +42,13 @@ public abstract class AbstractGlassfishDataSourceJndiIntegrationTest {
         hypersistenceOptimizer = new HypersistenceOptimizer(
             new JpaConfig(
                 getEntityManagerFactory()
+            )
+            .setEventPersistence(
+                new Config.EventPersistence()
+                    .setEnabled(true)
+                    .setApplicationName("glassfish-hibernate-example")
+                    .setWebAppEnabled(true)
+                    .setWebAppPort(0)
             )
         );
     }

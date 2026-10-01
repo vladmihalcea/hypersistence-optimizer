@@ -1,6 +1,7 @@
 package io.hypersistence.optimizer.forum.repository;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
+import io.hypersistence.optimizer.core.config.Config;
 import io.hypersistence.optimizer.core.config.HibernateConfig;
 import io.micronaut.context.annotation.Factory;
 import javax.inject.Singleton;
@@ -14,6 +15,13 @@ public class HypersistenceConfiguration {
         return new HypersistenceOptimizer(
             new HibernateConfig(
                 sessionFactory
+            )
+            .setEventPersistence(
+                new Config.EventPersistence()
+                    .setEnabled(true)
+                    .setApplicationName("micronaut2-example")
+                    .setWebAppEnabled(true)
+                    .setWebAppPort(0)
             )
         );
     }
