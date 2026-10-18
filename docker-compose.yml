@@ -11,3 +11,12 @@ services:
       MYSQL_DATABASE: high_performance_java_persistence
       MYSQL_USER: mysql
       MYSQL_PASSWORD: admin
+
+  postgres:
+    image: postgres:16
+    restart: always
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: high_performance_java_persistence

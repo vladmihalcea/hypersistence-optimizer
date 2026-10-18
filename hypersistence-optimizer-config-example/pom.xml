@@ -68,6 +68,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- hibernate-testing brings JUnit 5, so the JUnit 4 tests need the Vintage engine to run -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>

@@ -114,9 +114,28 @@ This module provides a test case template you could use to replicate a certain H
 
 This module shows various examples of how you can configure Hypersistence Optimizer.
 
+It also shows the checks added in Hypersistence Optimizer 2.15:
+
+- `AsyncMetadataScannersTest` runs the mapping and configuration scanners in the background, so they don't delay the application bootstrap.
+- `HibernateConfigurationChecksTest` detects the Hibernate 6 and 7 settings that affect performance, like a disabled query plan cache.
+- `MySQLJdbcDriverChecksTest` detects the MySQL JDBC Driver settings that add extra database roundtrips, and the missing socket timeout.
+- `PostgreSQLJdbcDriverChecksTest` detects the missing socket timeout and the default application name of the PostgreSQL JDBC Driver.
+- `MySQLResultSetStreamingTest` detects a streamed query whose result set the MySQL JDBC Driver loads entirely into memory.
+- `PostgreSQLAutoExplainTest` detects that the PostgreSQL `auto_explain` module, which logs the actual execution plans of the slow queries, is not enabled.
+- `PostgreSQLSchemaChecksTest` reads the database catalog, and detects a table without a Primary Key and an unindexed Foreign Key column.
+- `DatabaseScannerDisabledTest` shows how to disable the database scanner.
+
 ### `hypersistence-optimizer-spring-boot-example`
 
 This module shows how you can use Hypersistence Optimizer with Spring Boot.
+
+### `hypersistence-optimizer-spring-boot3-example`
+
+This module shows how you can use Hypersistence Optimizer with Spring Boot 3.
+
+The tests in the `io.hypersistence.optimizer.forum.pool` package run the application on MySQL with every connection pool
+that Spring Boot supports (HikariCP, Tomcat JDBC, DBCP2, Oracle UCP, and c3p0), and check that Hypersistence Optimizer
+detects the pool settings that let the MySQL server close the idle connections before the pool retires them.
 
 ### `hypersistence-optimizer-spring-jpa-example`
 
@@ -158,12 +177,15 @@ This module shows how you can use Hypersistence Optimizer with Quarkus's Spring 
 
 This module shows how you can use Hypersistence Optimizer with Quarkus (Hibernate Panache ORM).
 
+The tests in the `io.hypersistence.optimizer.forum.pool` package run the application on MySQL, and check that Hypersistence Optimizer
+detects the Agroal connection pool settings.
+
 ## Setup instructions
 
 All modules work with Java 8 or newer versions, and the project is set up using Maven.
 
-While most tests use the in-memory HSQLDB, some tests use MySQL, and, for this reason, you need to configure
-the MySQL database connection properties in the `MySQLDataSourceProvider` class.
+While most tests use the in-memory HSQLDB, some tests use MySQL or PostgreSQL, and, for this reason, you need to configure
+the database connection properties in the `MySQLDataSourceProvider` and `PostgreSQLDataSourceProvider` classes.
 
 By default, the project expects that you are using the following MySQL database connection properties:
 
@@ -172,7 +194,9 @@ By default, the project expects that you are using the following MySQL database 
 * UserName: mysql
 * Password: admin
  
-You can also use **docker-compose** to run MySQL server using the command: 
+For PostgreSQL, the project expects the `high_performance_java_persistence` database on port 5432, with the `postgres` user and the `admin` password.
+
+You can also use **docker-compose** to run the MySQL and PostgreSQL servers using the command: 
 
     docker-compose up
     
