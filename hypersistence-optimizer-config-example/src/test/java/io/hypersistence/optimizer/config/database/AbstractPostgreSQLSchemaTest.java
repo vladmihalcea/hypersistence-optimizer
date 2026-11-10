@@ -23,6 +23,9 @@ import java.util.Properties;
  *     <li>the {@code schema_post_comment.post_id} Foreign Key column is not indexed</li>
  * </ul>
  * <p>
+ * The Foreign Key index check is based on the Foreign Key constraints the database defines, so the
+ * {@code fk_schema_post_comment_post_id} constraint is needed for the unindexed {@code post_id} column to be reported.
+ * <p>
  * To run this test, you need a PostgreSQL database, like the one provided by the {@code docker-compose.yml} file
  * in the root folder of this repository.
  */
@@ -34,7 +37,8 @@ public abstract class AbstractPostgreSQLSchemaTest extends AbstractHypersistence
             "drop table if exists schema_post_comment",
             "drop table if exists schema_post",
             "create table schema_post (id bigint not null, title varchar(255), primary key (id))",
-            "create table schema_post_comment (id bigint not null, review varchar(255), post_id bigint)"
+            "create table schema_post_comment (id bigint not null, review varchar(255), post_id bigint)",
+            "alter table schema_post_comment add constraint fk_schema_post_comment_post_id foreign key (post_id) references schema_post"
         );
     }
 
